@@ -1,0 +1,11 @@
+.WelBox {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+.WelHead {
+  text-align: center;
+  letter-spacing: 3px;
+  font-size: 54px;
+}
