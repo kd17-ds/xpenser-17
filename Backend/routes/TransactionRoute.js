@@ -7,7 +7,7 @@ const {
 } = require("../controllers/TransactionControllers");
 
 router.post("/addTransaction", AddTransaction);
-router.get("/allTransaction", ShowTransaction);
+router.get("/allTransactions", ShowTransaction);
 router.put("/updateTransaction", UpdateTransaction);
 router.delete("/deleteTransaction", DeleteTransaction);
 
