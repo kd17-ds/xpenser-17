@@ -25,7 +25,7 @@ export default function TransactionForm() {
         type: "expense",
         category: "",
         name: "",
-        date: new Date().toISOString().slice(0, 10),
+        date: new Date().toISOString().slice(0, 16),
     });
 
     const handleChange = (e) => {
@@ -149,7 +149,7 @@ export default function TransactionForm() {
                         Date
                     </label>
                     <input
-                        type="date"
+                        type="datetime-local"
                         name="date"
                         value={formData.date}
                         onChange={handleChange}
@@ -167,8 +167,8 @@ export default function TransactionForm() {
                 {message && (
                     <div
                         className={`text-center mt-4 font-medium ${message.toLowerCase().includes("success")
-                                ? "text-green-600"
-                                : "text-red-600"
+                            ? "text-green-600"
+                            : "text-red-600"
                             }`}
                     >
                         {message}

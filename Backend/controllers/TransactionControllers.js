@@ -29,5 +29,56 @@ module.exports.ShowTransaction = async (req, res) => {
   }
 };
 
-module.exports.UpdateTransaction = async (req, res) => {};
-module.exports.DeleteTransaction = async (req, res) => {};
+module.exports.UpdateTransactionData = async (req, res) => {
+  try {
+    const id = req.params.id;
+    const updateTransaction = await TransactionModel.findById(id);
+    if (!updateTransaction) {
+      return res.status(404).json({ error: "Transaction not found" });
+    }
+    res.status(200).json(updateTransaction);
+  } catch (err) {
+    res.status(500).json({ error: "Something went wrong" });
+  }
+};
+
+module.exports.UpdateTransaction = async (req, res) => {
+  try {
+    const { amount, type, category, name, date } = req.body;
+    const id = req.params.id;
+    const updatedTransaction = await TransactionModel.findByIdAndUpdate(
+      id,
+      {
+        amount,
+        type,
+        category,
+        name,
+        date,
+      },
+      { new: true }
+    );
+    if (!updatedTransaction) {
+      return res.status(404).json({ error: "Transaction not found" });
+    }
+    console.log(updatedTransaction);
+    res.status(201).json({ message: "Transaction Updated!" });
+  } catch (err) {
+    res.status(500).json({ error: "Something went wrong" });
+  }
+};
+
+module.exports.DeleteTransaction = async (req, res) => {
+  try {
+    const id = req.params.id;
+    const deletedTransaction = await TransactionModel.findByIdAndDelete(id);
+
+    if (!deletedTransaction) {
+      return res.status(404).json({ error: "Transaction not found" });
+    }
+
+    console.log(deletedTransaction);
+    res.status(200).json({ message: "Transaction Deleted!" });
+  } catch (err) {
+    res.status(500).json({ error: "Something went wrong" });
+  }
+};
