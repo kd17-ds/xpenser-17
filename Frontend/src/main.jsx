@@ -6,6 +6,7 @@ import HomePage from './pages/HomePage';
 import AllTransactions from './pages/AllTransactions';
 import TransactionForm from './pages/TransactionForm';
 import UpdateTransaction from './pages/UpdateTransaction';
+import Analytics from './pages/Analytics';
 
 
 function App() {
@@ -13,6 +14,7 @@ function App() {
     <Routes>
       <Route element={<MainLayout />}>
         <Route path='/' element={<HomePage />} />
+        <Route path='/analytics' element={<Analytics />} />
         <Route path='/addtransaction' element={<TransactionForm />} />
         <Route path='/alltransactions' element={<AllTransactions />} />
         <Route path='/updatetransaction/:id' element={<UpdateTransaction />} />

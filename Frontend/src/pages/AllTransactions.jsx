@@ -101,6 +101,12 @@ export default function AllTransactions() {
                     ))}
                 </div>
             )}
+            <Link
+                to={`/analytics`}
+                className="text-gray-400 hover:text-blue-600"
+            >
+                Go to Analytics
+            </Link>
             {message && (
                 <div
                     className={`text-center mt-4 font-medium ${message.toLowerCase().includes("success")

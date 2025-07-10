@@ -2,13 +2,14 @@ const TransactionModel = require("../models/TransactionModel.js");
 
 module.exports.AddTransaction = async (req, res) => {
   try {
-    const { amount, type, category, name } = req.body;
+    const { amount, type, category, name, date } = req.body;
 
     const Transaction = await TransactionModel.create({
       amount,
       type,
       category,
       name,
+      date,
     });
 
     console.log(Transaction);
