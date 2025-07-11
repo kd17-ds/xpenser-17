@@ -3,6 +3,7 @@ import axios from "axios";
 import { BASE_URL } from "../constants/constants";
 import { FaEdit, FaTrash } from 'react-icons/fa';
 import { Link } from 'react-router-dom';
+import DashboardCards from "../components/DashboardCards";
 
 export default function AllTransactions() {
     const [transactions, setTransactions] = useState([]);
@@ -40,6 +41,7 @@ export default function AllTransactions() {
 
     return (
         <div className="max-w-3xl mx-auto mt-10 p-4">
+            <DashboardCards transactions={transactions} />
             <h2 className="text-3xl font-bold text-center text-gray-800 mb-6">
                 All Transactions
             </h2>
