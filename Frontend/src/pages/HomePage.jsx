@@ -16,6 +16,13 @@ export default function HomePage() {
             >
                 Add a transaction
             </Link>
+            <br />
+            <Link
+                to={`/setbudget`}
+                className="text-black hover:text-blue-600"
+            >
+                Set Budget
+            </Link>
         </div>
     );
 }
