@@ -9,8 +9,8 @@ const {
 
 router.post("/setbudget", SetBudget);
 router.get("/showbudget", ShowBudget);
-router.get("/updatebudget/:id", UpdateBudget);
-router.put("/updatebudget/:id", UpdateBudgetData);
-router.delete("/deletebudget/:id", DeleteBudget);
+router.get("/updatebudget/", UpdateBudget);
+router.put("/updatebudget/", UpdateBudgetData);
+router.delete("/deletebudget/", DeleteBudget);
 
 module.exports = router;

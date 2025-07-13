@@ -20,7 +20,7 @@ function App() {
                 <Route path='/updatetransaction/:id' element={<UpdateTransaction />} />
                 <Route path='/setbudget' element={<BudgetForm />} />
                 <Route path='/budget' element={<Budget />} />
-                <Route path='/updatebudget/:id' element={<UpdateBudget />} />
+                <Route path='/updatebudget' element={<UpdateBudget />} />
             </Route>
         </Routes>
     )
