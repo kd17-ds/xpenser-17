@@ -59,17 +59,18 @@ export default function BudgetForm() {
         };
 
         try {
-            const res = await axios.post(`${BASE_URL}/setbudget`, { budgets: [payload] });
+            const res = await axios.post(`${BASE_URL}/setbudget`, payload);
 
             if (res.status === httpStatus.CREATED) {
-                setMessage("Budget Set successfully!");
-                navigate("/budget");
+                console.log(res.data?.message);
+                setMessage(res.data?.message);
+                setTimeout(() => navigate("/budget"), 1000);
             } else {
                 setMessage("Failed to set budget.");
             }
         } catch (err) {
             console.log("Failed to submit budget:", err);
-            setMessage("Failed to set budget.");
+            setMessage(err.response?.data?.error || "Failed to set budget.");
         }
     };
 

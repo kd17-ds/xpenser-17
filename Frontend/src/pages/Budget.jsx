@@ -37,13 +37,13 @@ export default function Budget() {
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [monthFilter, yearFilter]);
 
-    const handleDelete = async (month, year) => {
+    const handleDelete = async (id) => {
         const confirm = window.confirm("Are you sure you want to delete this Budget?");
         if (!confirm) return;
         try {
-            await axios.delete(`${BASE_URL}/deletebudget?month=${month}&year=${year}`);
-            setBudgets((prev) => prev.filter(bgt => !(bgt.month === month && bgt.year === year)));
-            setMessage("Budget deleted successfully!");
+            let res = await axios.delete(`${BASE_URL}/deletebudget/${id}`);
+            setBudgets((prev) => prev.filter(bgt => bgt._id !== id));
+            setMessage(res.data?.message);
             setError("");
         } catch (err) {
             console.error("Error deleting Budget:", err);
@@ -96,21 +96,21 @@ export default function Budget() {
             ) : (
                 <div className="space-y-6">
                     {budgets.map((bgt) => (
-                        <div key={`${bgt.month}-${bgt.year}`} className="p-4 border border-gray-200 rounded-xl bg-white shadow-md">
+                        <div key={`${bgt._id}`} className="p-4 border border-gray-200 rounded-xl bg-white shadow-md">
                             <div className="flex justify-between items-center mb-2">
                                 <h3 className="text-xl font-semibold text-blue-600">
                                     {bgt.month} {bgt.year}
                                 </h3>
                                 <div className="flex items-center gap-4">
                                     <Link
-                                        to={`/updatebudget?month=${bgt.month}&year=${bgt.year}`}
+                                        to={`/updatebudget/${bgt._id}`}
                                         className="text-gray-500 hover:text-blue-600"
                                         title="Edit"
                                     >
                                         <FaEdit />
                                     </Link>
                                     <button
-                                        onClick={() => handleDelete(bgt.month, bgt.year)}
+                                        onClick={() => handleDelete(bgt._id)}
                                         className="text-gray-500 hover:text-red-600"
                                         title="Delete"
                                     >

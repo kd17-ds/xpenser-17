@@ -2,19 +2,36 @@ const BudgetModel = require("../models/BudgetModel.js");
 
 module.exports.SetBudget = async (req, res) => {
   try {
-    const budgets = req.body.budgets;
+    const { month, year, categories } = req.body;
 
-    if (!Array.isArray(budgets) || budgets.length === 0) {
-      return res.status(400).json({ error: "No budget data provided" });
+    if (
+      !month ||
+      !year ||
+      !categories ||
+      typeof categories !== "object" ||
+      Array.isArray(categories)
+    ) {
+      return res.status(400).json({
+        error:
+          "Invalid budget format. Please provide valid month, year, and category values.",
+      });
     }
 
-    const inserted = await BudgetModel.insertMany(budgets);
+    const existing = await BudgetModel.findOne({ month, year });
 
-    console.log(inserted);
-    res.status(201).json({ message: "Budgets set for all categories!" });
+    if (existing) {
+      return res
+        .status(409)
+        .json({ error: `A budget for ${month} ${year} already exists.` });
+    }
+
+    await BudgetModel.create({ month, year, categories });
+    res.status(201).json({
+      message: `Budget for ${month} ${year} has been successfully created.`,
+    });
   } catch (err) {
     console.error(err);
-    res.status(500).json({ error: "Failed to set budgets." });
+    res.status(500).json({ error: "Failed to set budget." });
   }
 };
 
@@ -25,19 +42,20 @@ module.exports.ShowBudget = async (req, res) => {
     if (month) query.month = month;
     if (year) query.year = year;
 
-    const allBudget = await BudgetModel.find(query);
+    const allBudget = await BudgetModel.find(query); // return according to query demands otherwise return allbudgets
     res.status(200).json(allBudget);
   } catch (err) {
     console.log(err);
-    res.status(500).json({ error: "Failed to fetch Budgets" });
+    res.status(500).json({ error: "Failed to fetch Budget" });
   }
 };
 
 module.exports.UpdateBudget = async (req, res) => {
   try {
-    const { month, year } = req.query;
-    const monthlyBudget = await BudgetModel.find({ month, year });
-    if (!monthlyBudget || monthlyBudget.length === 0) {
+    const id = req.params.id;
+    const monthlyBudget = await BudgetModel.findById(id);
+
+    if (!monthlyBudget) {
       return res.status(404).json({ error: "Budget not found" });
     }
 
@@ -49,29 +67,33 @@ module.exports.UpdateBudget = async (req, res) => {
 
 module.exports.UpdateBudgetData = async (req, res) => {
   try {
-    const { month, year, categories, originalMonth, originalYear } = req.body;
+    const { month, year, categories } = req.body;
 
-    const updateResult = await BudgetModel.updateOne(
-      { month: originalMonth, year: originalYear },
-      {
-        $set: {
-          month,
-          year,
-          ...Object.fromEntries(
-            Object.entries(categories).map(([cat, amt]) => [
-              `categories.${cat}`,
-              amt,
-            ])
-          ),
-        },
-      }
-    );
+    const existing = await BudgetModel.findOne({ month, year });
 
-    if (updateResult.matchedCount === 0) {
-      return res.status(404).json({ error: "Original budget not found" });
+    if (existing && existing._id.toString() !== req.params.id) {
+      return res.status(409).json({
+        error: `A budget for ${month} ${year} already exists. Please choose a different month or year.`,
+      });
     }
 
-    res.status(200).json({ message: "Budget updated successfully!" });
+    const updateResult = await BudgetModel.findByIdAndUpdate(
+      req.params.id,
+      {
+        month,
+        year,
+        categories,
+      },
+      { new: true }
+    );
+
+    if (!updateResult) {
+      return res.status(404).json({ error: "Budget not found" });
+    }
+
+    res.status(200).json({
+      message: `Budget for ${month} ${year} has been updated successfully.`,
+    });
   } catch (err) {
     res.status(500).json({ error: "Something went wrong" });
   }
@@ -79,18 +101,17 @@ module.exports.UpdateBudgetData = async (req, res) => {
 
 module.exports.DeleteBudget = async (req, res) => {
   try {
-    const { month, year } = req.query;
+    const id = req.params.id;
+    const deletedBudget = await BudgetModel.findByIdAndDelete(id);
 
-    const deleted = await BudgetModel.deleteMany({ month, year });
-
-    if (deleted.deletedCount === 0) {
-      return res
-        .status(404)
-        .json({ error: "No budgets found for given month/year" });
+    if (!deletedBudget) {
+      return res.status(404).json({ error: "Budget not found" });
     }
 
-    res.status(200).json({ message: "Budgets deleted!" });
+    res.status(200).json({
+      message: `Budget for ${deletedBudget.month} ${deletedBudget.year} has been successfully deleted.`,
+    });
   } catch (err) {
-    res.status(500).json({ error: "Something went wrong" });
+    res.status(500).json({ error: "Failed to delete budget" });
   }
 };

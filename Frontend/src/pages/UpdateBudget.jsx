@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { BASE_URL } from "../constants/constants";
-import { useNavigate, useSearchParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 
 const categories = [
     "Food", "Rent", "Travel", "Utilities", "Entertainment",
@@ -14,10 +14,7 @@ const months = [
 ];
 
 export default function UpdateBudget() {
-    const [searchParams] = useSearchParams();
-    const monthParam = searchParams.get("month");
-    const yearParam = searchParams.get("year");
-
+    const { id } = useParams();
     const navigate = useNavigate();
     const [message, setMessage] = useState("");
     const [formData, setFormData] = useState({
@@ -32,8 +29,8 @@ export default function UpdateBudget() {
     useEffect(() => {
         const fetchBudget = async () => {
             try {
-                const res = await axios.get(`${BASE_URL}/updatebudget?month=${monthParam}&year=${yearParam}`);
-                const data = res.data[0];
+                const res = await axios.get(`${BASE_URL}/updatebudget/${id}`);
+                const data = res.data;
 
                 setFormData({
                     month: data.month,
@@ -49,8 +46,8 @@ export default function UpdateBudget() {
             }
         };
 
-        if (monthParam && yearParam) fetchBudget();
-    }, [monthParam, yearParam]);
+        fetchBudget();
+    }, [id]);
 
     const handleChange = (e) => {
         const { name, value } = e.target;
@@ -79,16 +76,14 @@ export default function UpdateBudget() {
         );
 
         try {
-            await axios.put(`${BASE_URL}/updatebudget`, {
+            const res = await axios.put(`${BASE_URL}/updatebudget/${id}`, {
                 month: formData.month,
                 year: formData.year,
                 categories: numericCategories,
-                originalMonth: monthParam,
-                originalYear: yearParam
             });
 
-            setMessage("Budget updated successfully!");
-            navigate("/budget");
+            setMessage(res.data?.message);
+            setTimeout(() => navigate("/budget"), 1000);
         } catch (err) {
             console.error("Update failed:", err);
             setMessage("Failed to update Budget.");
