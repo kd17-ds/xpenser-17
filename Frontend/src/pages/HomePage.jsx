@@ -23,6 +23,13 @@ export default function HomePage() {
             >
                 Set Budget
             </Link>
+            <br />
+            <Link
+                to={`/budget`}
+                className="text-black hover:text-blue-600"
+            >
+                See Budget
+            </Link>
         </div>
     );
 }

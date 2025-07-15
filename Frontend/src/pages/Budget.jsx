@@ -133,8 +133,8 @@ export default function Budget() {
             )}
 
             <div className="text-center mt-6">
-                <Link to={`/analytics`} className="text-blue-500 hover:underline">
-                    Go to Analytics
+                <Link to={`/comparison`} className="text-blue-500 hover:underline">
+                    Go to Comparison
                 </Link>
             </div>
 

@@ -8,6 +8,7 @@ import BudgetForm from './pages/BudgetForm';
 import UpdateBudget from './pages/UpdateBudget';
 import Budget from './pages/Budget';
 import { Routes, Route } from 'react-router-dom';
+import Comparison from './pages/Comparison';
 
 function App() {
     return (
@@ -21,6 +22,7 @@ function App() {
                 <Route path='/setbudget' element={<BudgetForm />} />
                 <Route path='/budget' element={<Budget />} />
                 <Route path='/updatebudget/:id' element={<UpdateBudget />} />
+                <Route path='/comparison' element={<Comparison />} />
             </Route>
         </Routes>
     )
