@@ -12,6 +12,7 @@ export default function Comparison() {
     const [budgets, setBudgets] = useState([]);
     const [error, setError] = useState("");
 
+    // Line Chart filters
     const [fromMonth, setFromMonth] = useState("");
     const [fromYear, setFromYear] = useState("");
     const [toMonth, setToMonth] = useState("");
@@ -58,6 +59,18 @@ export default function Comparison() {
         );
     });
 
+    // Filter transactions for Category Chart
+    const filteredCategoryTransactions = transactions.filter(txn => {
+        const txnDate = new Date(txn.date);
+        const txnMonth = txnDate.toLocaleString("default", { month: "short" });
+        const txnYear = txnDate.getFullYear().toString();
+        if (comparisonType === "Monthly") {
+            return txnMonth === categoryMonthFilter && txnYear === categoryYearFilter;
+        } else {
+            return txnYear === categoryYearFilter;
+        }
+    });
+
     const selectedBudget =
         comparisonType === "Monthly"
             ? budgets.find(
@@ -85,18 +98,6 @@ export default function Comparison() {
             categories: merged
         };
     }
-
-    // Filter transactions for Category Chart
-    const filteredCategoryTransactions = transactions.filter(txn => {
-        const txnDate = new Date(txn.date);
-        const txnMonth = txnDate.toLocaleString("default", { month: "short" });
-        const txnYear = txnDate.getFullYear().toString();
-        if (comparisonType === "Monthly") {
-            return txnMonth === categoryMonthFilter && txnYear === categoryYearFilter;
-        } else {
-            return txnYear === categoryYearFilter;
-        }
-    });
 
     return (
         <div className="max-w-5xl mx-auto p-4">

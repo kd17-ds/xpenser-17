@@ -75,7 +75,7 @@ export default function StackedCategoryBarChart({ transactions }) {
         responsive: true,
         plugins: {
             legend: {
-                position: "bottom"
+                position: "top"
             },
             tooltip: {
                 mode: "index",

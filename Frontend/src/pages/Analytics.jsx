@@ -6,17 +6,19 @@ import CategoryPieChart from '../components/CategoryPieChart';
 import StackedCategoryBarChart from '../components/StackedCategoryBarChart';
 
 const months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
-const years = ["2023", "2024", "2025", "2026"];
+const years = ["2015", "2016", "2017", "2018", "2019", "2020", "2021",
+    "2022", "2023", "2024", "2025", "2026", "2027", "2028",
+    "2029", "2030", "2031", "2032", "2033", "2034", "2035",
+    "2036", "2037", "2038", "2039", "2040"];
 
 export default function Analytics() {
     const [transactions, setTransactions] = useState([]);
     const [error, setError] = useState("");
 
-    // Filters for each chart
-    const [year1, setYear1] = useState("");        // For MonthlyExpensesChart
-    const [month2, setMonth2] = useState("");      // For CategoryPieChart
+    const [year1, setYear1] = useState("");
+    const [month, setMonth] = useState("");
     const [year2, setYear2] = useState("");
-    const [year3, setYear3] = useState("");        // For StackedCategoryBarChart
+    const [year3, setYear3] = useState("");
 
     useEffect(() => {
         const fetchData = async () => {
@@ -63,7 +65,7 @@ export default function Analytics() {
             <div>
                 <h3 className="text-xl font-semibold mb-2">Category-wise Pie</h3>
                 <div className="flex flex-wrap gap-4 mb-4">
-                    <select value={month2} onChange={e => setMonth2(e.target.value)} className="px-4 py-2 border rounded-md">
+                    <select value={month} onChange={e => setMonth(e.target.value)} className="px-4 py-2 border rounded-md">
                         <option value="">All Months</option>
                         {months.map(m => <option key={m} value={m}>{m}</option>)}
                     </select>
@@ -72,7 +74,7 @@ export default function Analytics() {
                         {years.map(y => <option key={y} value={y}>{y}</option>)}
                     </select>
                 </div>
-                <CategoryPieChart transactions={filterTxns(month2, year2)} />
+                <CategoryPieChart transactions={filterTxns(month, year2)} />
             </div>
 
             {/* StackedCategoryBarChart Section */}
