@@ -1,8 +1,43 @@
+@import url("https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap");
 @import "tailwindcss";
 
+* {
+  font-family: "Open Sans", sans-serif;
+}
+
 @theme {
-  --color-primary: #010101;
-  --color-sec: #6552aa;
-  --color-lite: #7b6db9;
-  --color-med: #28223c;
+  --color-primary: #1e1e2f; /* Deep Navy - Main text, navbar */
+  --color-secondary: #000000; /* Soft Lavender - Primary CTA, active highlights */
+  --color-light: #c6bffd; /* Light Lavender - Hovers, subtle accents */
+  --color-medium: #f4f4f7; /* Light Gray - Section backgrounds, card surfaces */
+  --color-bg: #fbfbfe; /* Very Light Blue-Gray - Overall background */
+  --color-surface: #ffffff; /* White - For cards, modals, charts */
+
+  /* Accent Colors */
+  --color-accent: #10b981; /* Emerald-500 - Success: income, profit, savings */
+  --color-danger: #ef4444; /* Red-500 - Expenses, errors */
+  --color-warning: #f59e0b; /* Amber-500 - Alerts, budget near limits */
+  --color-info: #38bdf8; /* Sky-400 - Tips, neutral info blocks */
+  --color-muted: #9ca3af; /* Gray-400 - Placeholders, low-priority text */
+
+  /* Text Colors */
+  --text-primary: #1e1e2f; /* Dark navy for body and headings */
+  --text-secondary: #000000;
+  --text-inverted: #ffffff; /* For buttons/nav on dark backgrounds */
+  --text-accent: #10b981; /* For positive financial figures */
+  --text-danger: #ef4444; /* For negative financial figures */
+
+  /* Border Colors */
+  --border-light: #e5e7eb; /* Light gray borders */
+  --border-medium: #d1d5db; /* Medium gray outlines, inputs */
+
+  /* State Colors */
+  --hover-primary: #7b6ee4; /* Darker lavender - hover state */
+  --hover-accent: #059669; /* Emerald-600 */
+  --hover-danger: #dc2626; /* Red-600 */
+  --active-primary: #6c5dd3; /* Indigo shade - active state */
+
+  /* Miscellaneous */
+  --shadow-default: 0 1px 2px rgba(0, 0, 0, 0.05);
+  --radius-default: 0.5rem;
 }

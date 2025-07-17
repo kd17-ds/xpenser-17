@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import { BASE_URL } from "../constants/constants";
+import { BASE_URL } from "../../constants/constants";
 import { FaEdit, FaTrash } from 'react-icons/fa';
 import { Link } from 'react-router-dom';
 
@@ -9,7 +9,7 @@ const months = [
     "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"
 ];
 
-export default function Budget() {
+export default function AllBudgets() {
     const [budgets, setBudgets] = useState([]);
     const [error, setError] = useState("");
     const [message, setMessage] = useState("");

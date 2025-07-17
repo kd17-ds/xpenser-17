@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import { BASE_URL } from "../constants/constants";
+import { BASE_URL } from "../../constants/constants";
 import { useNavigate, useParams } from "react-router-dom";
 
 const categories = [
@@ -13,7 +13,7 @@ const months = [
     "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"
 ];
 
-export default function UpdateBudget() {
+export default function UpdateBudgetForm() {
     const { id } = useParams();
     const navigate = useNavigate();
     const [message, setMessage] = useState("");
@@ -83,7 +83,7 @@ export default function UpdateBudget() {
             });
 
             setMessage(res.data?.message);
-            setTimeout(() => navigate("/budget"), 1000);
+            setTimeout(() => navigate("/allbudgets"), 1000);
         } catch (err) {
             console.error("Update failed:", err);
             setMessage("Failed to update Budget.");

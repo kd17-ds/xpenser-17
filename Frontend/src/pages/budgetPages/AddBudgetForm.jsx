@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import axios from "axios";
 import httpStatus from "http-status";
-import { BASE_URL } from "../constants/constants";
+import { BASE_URL } from "../../constants/constants";
 import { useNavigate } from "react-router-dom";
 
 const categories = [
@@ -14,7 +14,7 @@ const months = [
     "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"
 ];
 
-export default function BudgetForm() {
+export default function AddBudgetForm() {
     const navigate = useNavigate();
     const [message, setMessage] = useState("");
     const [formData, setFormData] = useState({
@@ -64,7 +64,7 @@ export default function BudgetForm() {
             if (res.status === httpStatus.CREATED) {
                 console.log(res.data?.message);
                 setMessage(res.data?.message);
-                setTimeout(() => navigate("/budget"), 1000);
+                setTimeout(() => navigate("/allbudgets"), 1000);
             } else {
                 setMessage("Failed to set budget.");
             }

@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import axios from "axios";
 import httpStatus from "http-status";
-import { BASE_URL } from "../constants/constants";
+import { BASE_URL } from "../../constants/constants";
 import { useNavigate } from "react-router-dom";
 
 const categories = [
@@ -17,7 +17,7 @@ const categories = [
     "Other",
 ];
 
-export default function TransactionForm() {
+export default function AddTransactionForm() {
     const navigate = useNavigate();
     const [message, setMessage] = useState("");
     const [formData, setFormData] = useState({

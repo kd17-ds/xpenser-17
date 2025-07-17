@@ -18,7 +18,7 @@ const months = [
 ];
 
 function getMonthYearIndex(month, year) {
-    return parseInt(year) * 12 + months.indexOf(month);
+    return parseInt(year) * 12 + months.indexOf(month); // For ex Jan, 2025 → 2025 * 12 + 0 = 24300
 }
 
 export default function BudgetTrendLineChart({ budgets, transactions, fromMonth, fromYear, toMonth, toYear }) {

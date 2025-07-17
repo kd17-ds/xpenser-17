@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import { BASE_URL } from "../constants/constants";
+import { BASE_URL } from "../../constants/constants";
 import { useNavigate, useParams } from "react-router-dom";
 
 const categories = [
@@ -8,7 +8,7 @@ const categories = [
     "Grocery", "Shopping", "Healthcare", "Education", "Other"
 ];
 
-export default function UpdateTransaction() {
+export default function UpdateTransactionForm() {
     const { id } = useParams();
     const navigate = useNavigate();
     const [message, setMessage] = useState("");

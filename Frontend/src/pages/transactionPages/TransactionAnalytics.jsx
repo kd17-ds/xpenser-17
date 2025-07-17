@@ -1,9 +1,9 @@
 import { useState, useEffect } from 'react';
 import axios from 'axios';
-import { BASE_URL } from '../constants/constants';
-import MonthlyExpensesChart from '../components/MonthlyExpenseChart';
-import CategoryPieChart from '../components/CategoryPieChart';
-import StackedCategoryBarChart from '../components/StackedCategoryBarChart';
+import { BASE_URL } from '../../constants/constants';
+import MonthlyExpensesChart from '../../components/charts/MonthlyExpenseChart';
+import CategoryPieChart from '../../components/charts/CategoryPieChart';
+import StackedCategoryBarChart from '../../components/charts/StackedCategoryBarChart';
 
 const months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
 const years = ["2015", "2016", "2017", "2018", "2019", "2020", "2021",
@@ -11,7 +11,7 @@ const years = ["2015", "2016", "2017", "2018", "2019", "2020", "2021",
     "2029", "2030", "2031", "2032", "2033", "2034", "2035",
     "2036", "2037", "2038", "2039", "2040"];
 
-export default function Analytics() {
+export default function TransactionAnalytics() {
     const [transactions, setTransactions] = useState([]);
     const [error, setError] = useState("");
 

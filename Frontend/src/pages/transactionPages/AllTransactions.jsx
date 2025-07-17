@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import { BASE_URL } from "../constants/constants";
+import { BASE_URL } from "../../constants/constants";
 import { FaEdit, FaTrash } from 'react-icons/fa';
 import { Link } from 'react-router-dom';
-import DashboardCards from "../components/DashboardCards";
+import DashboardCards from "../../components/others/DashboardCards";
 
 export default function AllTransactions() {
     const [transactions, setTransactions] = useState([]);
@@ -104,7 +104,7 @@ export default function AllTransactions() {
                 </div>
             )}
             <Link
-                to={`/analytics`}
+                to={`/transactionanalytics`}
                 className="text-gray-400 hover:text-blue-600"
             >
                 Go to Analytics

@@ -1,22 +1,26 @@
-import { BASE_URL } from '../constants/constants';
+import { BASE_URL } from '../../constants/constants';
 import { useState, useEffect } from 'react';
 import axios from 'axios';
-import BudgetTrendLineChart from "../components/BudgetTrendLineChart";
-import BudgetVsExpenseBarChart from '../components/BudgetVsExpenseBarChart';
-import CategoryComparisonChart from '../components/CategoryComparisonChart';
+import BudgetTrendLineChart from "../../components/charts/BudgetTrendLineChart";
+import BudgetVsExpenseBarChart from '../../components/charts/BudgetVsExpenseBarChart';
+import CategoryComparisonChart from '../../components/charts/CategoryComparisonChart';
 
 const months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+const years = ["2015", "2016", "2017", "2018", "2019", "2020", "2021",
+    "2022", "2023", "2024", "2025", "2026", "2027", "2028",
+    "2029", "2030", "2031", "2032", "2033", "2034", "2035",
+    "2036", "2037", "2038", "2039", "2040"];
 
-export default function Comparison() {
+export default function BudgetVsExpenseComparison() {
     const [transactions, setTransactions] = useState([]);
     const [budgets, setBudgets] = useState([]);
     const [error, setError] = useState("");
 
     // Line Chart filters
-    const [fromMonth, setFromMonth] = useState("");
-    const [fromYear, setFromYear] = useState("");
-    const [toMonth, setToMonth] = useState("");
-    const [toYear, setToYear] = useState("");
+    const [fromMonth, setFromMonth] = useState("Jan");
+    const [fromYear, setFromYear] = useState("2025");
+    const [toMonth, setToMonth] = useState("Dec");
+    const [toYear, setToYear] = useState("2025");
 
     // Filters for Bar Chart
     const [barMonthFilter, setBarMonthFilter] = useState("");
@@ -71,14 +75,13 @@ export default function Comparison() {
         }
     });
 
-    const selectedBudget =
-        comparisonType === "Monthly"
-            ? budgets.find(
-                b =>
-                    b.month?.toLowerCase() === categoryMonthFilter?.toLowerCase() &&
-                    b.year?.toString() === categoryYearFilter?.toString()
-            )
-            : mergeYearlyBudgets();
+    const selectedBudget = comparisonType === "Monthly"
+        ? budgets.find(
+            b =>
+                b.month?.toLowerCase() === categoryMonthFilter?.toLowerCase() &&
+                b.year?.toString() === categoryYearFilter?.toString()
+        )
+        : mergeYearlyBudgets();
 
     function mergeYearlyBudgets() {
         const yearly = budgets.filter(b => b.year?.toString() === categoryYearFilter?.toString());
@@ -112,7 +115,7 @@ export default function Comparison() {
 
                 <select value={barYearFilter} onChange={e => setBarYearFilter(e.target.value)} className="px-4 py-2 border rounded-md">
                     <option value="">All Years</option>
-                    {["2023", "2024", "2025", "2026"].map(y => <option key={y} value={y}>{y}</option>)}
+                    {years.map(y => <option key={y} value={y}>{y}</option>)}
                 </select>
             </div>
 
@@ -151,24 +154,37 @@ export default function Comparison() {
                     transactions={filteredCategoryTransactions}
                 />
             )}
-            <div className="flex flex-wrap justify-center gap-4 mb-6">
-                <select value={fromMonth} onChange={e => setFromMonth(e.target.value)} className="px-4 py-2 border rounded-md">
-                    <option value="">From Month</option>
-                    {months.map(m => <option key={m} value={m}>{m}</option>)}
-                </select>
-                <select value={fromYear} onChange={e => setFromYear(e.target.value)} className="px-4 py-2 border rounded-md">
-                    <option value="">From Year</option>
-                    {["2023", "2024", "2025", "2026"].map(y => <option key={y} value={y}>{y}</option>)}
-                </select>
-                <select value={toMonth} onChange={e => setToMonth(e.target.value)} className="px-4 py-2 border rounded-md">
-                    <option value="">To Month</option>
-                    {months.map(m => <option key={m} value={m}>{m}</option>)}
-                </select>
-                <select value={toYear} onChange={e => setToYear(e.target.value)} className="px-4 py-2 border rounded-md">
-                    <option value="">To Year</option>
-                    {["2023", "2024", "2025", "2026"].map(y => <option key={y} value={y}>{y}</option>)}
-                </select>
+
+            <div className="flex flex-wrap justify-center gap-6 mb-6">
+                <div className="flex flex-col">
+                    <label className="mb-1 text-sm font-medium">From Month</label>
+                    <select value={fromMonth} onChange={e => setFromMonth(e.target.value)} className="px-4 py-2 border rounded-md">
+                        {months.map(m => <option key={m} value={m}>{m}</option>)}
+                    </select>
+                </div>
+
+                <div className="flex flex-col">
+                    <label className="mb-1 text-sm font-medium">From Year</label>
+                    <select value={fromYear} onChange={e => setFromYear(e.target.value)} className="px-4 py-2 border rounded-md">
+                        {years.map(y => <option key={y} value={y}>{y}</option>)}
+                    </select>
+                </div>
+
+                <div className="flex flex-col">
+                    <label className="mb-1 text-sm font-medium">To Month</label>
+                    <select value={toMonth} onChange={e => setToMonth(e.target.value)} className="px-4 py-2 border rounded-md">
+                        {months.map(m => <option key={m} value={m}>{m}</option>)}
+                    </select>
+                </div>
+
+                <div className="flex flex-col">
+                    <label className="mb-1 text-sm font-medium">To Year</label>
+                    <select value={toYear} onChange={e => setToYear(e.target.value)} className="px-4 py-2 border rounded-md">
+                        {years.map(y => <option key={y} value={y}>{y}</option>)}
+                    </select>
+                </div>
             </div>
+
 
             <BudgetTrendLineChart
                 budgets={budgets}
