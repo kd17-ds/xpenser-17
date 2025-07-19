@@ -49,32 +49,38 @@ export default function HomePage() {
                 </h2>
                 <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-12 max-w-6xl mx-auto">
 
-                    <div className="p-6 rounded-2xl shadow-md hover:shadow-xl hover:cursor-pointer transition duration-500">
-                        <FaWallet className="text-3xl text-secondary mb-3" />
-                        <h3 className="text-xl font-semibold mb-2">Track Every Expense</h3>
-                        <p className="text-sm leading-6">
-                            Log your transactions easily and never lose sight of your money.
-                        </p>
-                    </div>
+                    <Link to={"/alltransactions"}>
+                        <div className="p-6 rounded-2xl shadow-md hover:shadow-xl hover:cursor-pointer transition duration-500">
+                            <FaWallet className="text-3xl text-secondary mb-3" />
+                            <h3 className="text-xl font-semibold mb-2">Track Every Expense</h3>
+                            <p className="text-sm leading-6">
+                                Log your transactions easily and never lose sight of your money.
+                            </p>
+                        </div>
+                    </Link>
 
-                    <div className=" p-6 rounded-2xl shadow-md hover:shadow-xl hover:cursor-pointer transition duration-500">
-                        <FaBullseye className="text-3xl text-secondary mb-3" />
-                        <h3 className="text-xl font-semibold mb-2">Set Smart Budgets</h3>
-                        <p className="text-sm leading-6">
-                            Categorize your spending and set limits to stay financially fit.
-                        </p>
-                    </div>
+                    <Link to={"/allbudgets"}>
+                        <div className=" p-6 rounded-2xl shadow-md hover:shadow-xl hover:cursor-pointer transition duration-500">
+                            <FaBullseye className="text-3xl text-secondary mb-3" />
+                            <h3 className="text-xl font-semibold mb-2">Set Smart Budgets</h3>
+                            <p className="text-sm leading-6">
+                                Categorize your spending and set limits to stay financially fit.
+                            </p>
+                        </div>
+                    </Link>
 
-                    <div className=" p-6 rounded-2xl shadow-md hover:shadow-xl hover:cursor-pointer transition duration-500">
-                        <FaChartPie className="text-3xl text-secondary mb-3" />
-                        <h3 className="text-xl font-semibold mb-2">
-                            Visual Financial Summary
-                        </h3>
-                        <p className="text-sm leading-6">
-                            Understand your spending patterns with beautifully summarized
-                            data.
-                        </p>
-                    </div>
+                    <Link to={"/budgetvsexpensecomparison"}>
+                        <div className=" p-6 rounded-2xl shadow-md hover:shadow-xl hover:cursor-pointer transition duration-500">
+                            <FaChartPie className="text-3xl text-secondary mb-3" />
+                            <h3 className="text-xl font-semibold mb-2">
+                                Visual Financial Summary
+                            </h3>
+                            <p className="text-sm leading-6">
+                                Understand your spending patterns with beautifully summarized
+                                data.
+                            </p>
+                        </div>
+                    </Link>
                 </div>
             </div>
         </div >
