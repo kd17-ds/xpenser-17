@@ -13,16 +13,16 @@ export default function Footer() {
         <footer className="bg-primary border-t border-secondary mt-12 sm:mx-15 px-4 sm:px-6">
             <div className="grid grid-cols-1 md:grid-cols-3 items-center text-txt text-center md:text-left py-2">
                 {/* Left Section (Logo) */}
-                <div>
+                <div className="mx-auto md:mx-0 mb-3 mb:0">
                     <img
                         src="/assets/ds.png"
                         alt="D.S Logo"
-                        className="h-[50px] sm:h-[65px]"
+                        className="h-[65px]"
                     />
                 </div>
 
                 {/* Center Section (Text) */}
-                <div>
+                <div className="mb-6 md:mb-0">
                     <p className="font-semibold text-sm mb-1 text-center">
                         &copy; Xpenser - {new Date().getFullYear()}
                     </p>
@@ -30,7 +30,7 @@ export default function Footer() {
                 </div>
 
                 {/* Right Section (Social Icons) */}
-                <div className="flex justify-center md:justify-end gap-5 text-xl sm:text-2xl">
+                <div className="flex justify-center md:justify-end gap-5 text-2xl mb-2 md:mb-0">
                     <a
                         href="https://wa.me/916367248171"
                         target="_blank"
@@ -62,14 +62,6 @@ export default function Footer() {
                         className="hover:text-secondary transition-colors"
                     >
                         <FaXTwitter />
-                    </a>
-                    <a
-                        href="mailto:shan17div@gmail.com"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="hover:text-secondary transition-colors"
-                    >
-                        <FiMail />
                     </a>
                     <a
                         href="https://github.com/kd17-ds"
