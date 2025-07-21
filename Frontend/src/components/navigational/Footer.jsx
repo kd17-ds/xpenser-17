@@ -6,7 +6,6 @@ import {
     FaXTwitter,
     FaGithub,
 } from "react-icons/fa6";
-import { FiMail } from "react-icons/fi";
 
 export default function Footer() {
     return (
@@ -14,11 +13,13 @@ export default function Footer() {
             <div className="grid grid-cols-1 md:grid-cols-3 items-center text-txt text-center md:text-left py-2">
                 {/* Left Section (Logo) */}
                 <div className="mx-auto md:mx-0 mb-3 mb:0">
-                    <img
-                        src="/assets/ds.png"
-                        alt="D.S Logo"
-                        className="h-[65px]"
-                    />
+                    <a href="https://ds17portfolio.netlify.app/" alt="Portfolio" target="_blank">
+                        <img
+                            src="/assets/ds.png"
+                            alt="D.S Logo"
+                            className="h-[65px]"
+                        />
+                    </a>
                 </div>
 
                 {/* Center Section (Text) */}

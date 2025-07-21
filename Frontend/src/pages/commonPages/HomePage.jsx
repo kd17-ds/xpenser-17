@@ -4,7 +4,7 @@ import { FaWallet, FaChartPie, FaBullseye } from "react-icons/fa6";
 export default function HomePage() {
     return (
         <div className="text-txt ml-0 md:ml-10 lg:ml-0">
-            <div className="flex flex-col md:flex-row items-center justify-between px-6 pt-12 pb-0 md:pb-20 gap-4 max-w-7xl mx-auto">
+            <div className="flex flex-col md:flex-row items-center justify-between px-6 pt-6 pb-0 md:pb-20 gap-4 max-w-7xl mx-auto">
                 <div className="flex-1 text-center md:text-left" >
                     <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold mb-8 leading-16">
                         <span className="text-secondary">Trace your money.</span> <br />{" "}
@@ -37,7 +37,7 @@ export default function HomePage() {
                         <img
                             src="/assets/heroImg.png"
                             alt="Growth Graph"
-                            className="w-100 lg:w-120 object-contain mb-10"
+                            className="w-100 lg:w-115 object-contain mb-10"
                         />
                     </Link>
                 </div>
