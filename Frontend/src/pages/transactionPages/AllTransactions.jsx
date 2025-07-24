@@ -402,7 +402,7 @@ export default function AllTransactions() {
                                     <select
                                         value={categoryFilter}
                                         onChange={(e) => setCategoryFilter(e.target.value)}
-                                        className="w-full appearance-none border border-purple-300 rounded-lg px-3 py-2 text-sm bg-white text-gray-800 shadow-sm focus:outline-none focus:ring-2 focus:ring-purple-400 focus:border-purple-500 transition"
+                                        className="w-full appearance-none border border-purple-300 rounded-lg px-3 py-2 text-sm bg-white text-gray-800 shadow-sm focus:outline-none focus:ring-2 focus:ring-purple-400 focus:border-purple-500 transition hover:cursor-pointer"
                                     >
                                         <option value="">All Categories</option>
                                         {allCategories.map((cat) => (
@@ -580,7 +580,7 @@ export default function AllTransactions() {
                                             </Link>
                                             <button
                                                 onClick={() => handleDelete(txn._id)}
-                                                className="text-gray-500 hover:text-red-600 transition"
+                                                className="text-gray-500 hover:text-red-600 transition hover:cursor-pointer"
                                                 title="Delete"
                                             >
                                                 <FaTrash className="text-lg" />
