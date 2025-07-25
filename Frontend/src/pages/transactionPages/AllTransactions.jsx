@@ -136,14 +136,14 @@ export default function AllTransactions() {
     const totalBalance = totalIncome - totalExpense;
 
     return (
-        <div className="max-w-8xl mx-auto mt-12 px-12 space-y-8">
+        <div className="max-w-8xl mx-auto mt-12 md:px-12 space-y-8">
             {/* Header */}
-            <div className="flex flex-col sm:flex-row justify-between items-center mb-14 gap-6 sm:gap-10 px-4 sm:px-0">
-                <div className="text-center sm:text-left">
+            <div className="flex flex-col lg:flex-row lg:justify-between items-center mb-14 gap-6 lg:gap-10 px-4 sm:px-0">
+                <div className="text-center lg:text-left">
                     <h1 className="text-4xl sm:text-6xl text-txt drop-shadow-sm">
                         Personal Finance Ledger
                     </h1>
-                    <p className="mt-3 max-w-xl text-base text-sectxt leading-7">
+                    <p className="mt-6 lg:mt-3 mx-auto lg:mx-0 max-w-xl text-base text-sectxt leading-7">
                         Track where your money flows, effortlessly. Manage income, expenses,
                         and trends in one place.
                     </p>
@@ -174,9 +174,9 @@ export default function AllTransactions() {
             </div>
 
             {/* Two Column Layout */}
-            <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
+            <div className="grid grid-cols-1 lg:grid-cols-12 gap-14 lg:gap-8">
                 {/* Left Column */}
-                <div className="lg:col-span-3 space-y-6">
+                <div className="lg:col-span-3 space-y-6 px-6 lg:px-0">
                     <div className="text-3xl text-secondary px-2">
                         Financial Dashboard
                     </div>
@@ -308,7 +308,7 @@ export default function AllTransactions() {
                 </div>
 
                 {/* Right Column */}
-                <div className="lg:col-span-9 space-y-6 px-15">
+                <div className="lg:col-span-9 space-y-6 px-6 lg:px-15">
                     {/* Main Section Heading */}
                     <div className="text-3xl text-txt px-2 text-center mb-7">
                         Transaction Ledger
@@ -470,7 +470,7 @@ export default function AllTransactions() {
                                         setYearFilter("");
                                         setCategoryFilter("");
                                     }}
-                                    className="bg-red-500 text-white text-sm font-medium px-4 py-2 rounded-lg hover:bg-red-600 transition shadow"
+                                    className="bg-red-500 text-white text-sm font-medium px-4 py-2 rounded-lg hover:bg-red-600 hover:cursor-pointer transition shadow"
                                 >
                                     Clear Filters
                                 </button>
@@ -479,7 +479,22 @@ export default function AllTransactions() {
                     </div>
 
                     {/* Transactions List */}
-                    <div className="mt-6 pl-3 py-4 max-h-[100vh]  overflow-y-auto pr-2 space-y-4 scroll-smooth pb-6 pt-4 scrollbar-thin scrollbar-thumb-gray-400 scrollbar-track-transparent">
+                    <div
+                        className="mt-6 sm:px-4 py-4 max-h-[100vh] overflow-y-auto  space-y-4 scroll-smooth pb-6 pt-4 sm:scrollbar-thin sm:scrollbar-thumb-gray-400 sm:scrollbar-track-transparent"
+                        style={{
+                            scrollbarWidth: window.innerWidth < 640 ? "none" : undefined,
+                            msOverflowStyle: window.innerWidth < 640 ? "none" : undefined,
+                        }}
+                    >
+                        <style>
+                            {`
+                                    @media (max-width: 639px) {
+                                        div::-webkit-scrollbar {
+                                            display: none;
+                                                        }
+                                                        }
+                                                        `}
+                        </style>
                         {filtered.length === 0 ? (
                             <p className="text-center text-gray-500">
                                 No transactions to show.
@@ -488,41 +503,43 @@ export default function AllTransactions() {
                             filtered.map((txn) => (
                                 <div
                                     key={txn._id}
-                                    className={`relative border-1 group w-full max-w-[850px] grid grid-cols-1 sm:grid-cols-2 gap-4 p-5 rounded-2xl shadow-md border-l-4 transition-transform duration-300 hover:scale-[1.01] ${txn.type === "income"
+                                    className={`relative group w-full flex flex-col sm:grid sm:grid-cols-2 sm:gap-4 p-5 rounded-2xl shadow-md border-l-4 transition-transform duration-300 hover:scale-[1.01] ${txn.type === "income"
                                         ? "bg-green-50 border-green-500"
                                         : "bg-red-50 border-red-500"
                                         }`}
                                 >
-                                    {/* Left Section */}
-                                    <div className="flex items-center gap-4">
+                                    {/* Top: Left Section */}
+                                    <div className="flex items-center justify-between sm:justify-start sm:gap-4">
                                         {/* Category Icon */}
-                                        <div className="flex justify-center items-center p-3 rounded-full border-r-2 border-gray-300">
+                                        <div className="p-2 rounded-full border-r-2 border-gray-300">
                                             {(() => {
                                                 const Icon =
                                                     categoryIcons[txn.category?.toLowerCase()] ||
                                                     FaRegCircle;
-                                                return <Icon className="text-3xl text-gray-600" />;
+                                                return (
+                                                    <Icon className="text-2xl sm:text-3xl text-gray-600" />
+                                                );
                                             })()}
                                         </div>
 
-                                        {/* Amount & Name */}
-                                        <div className="flex flex-col gap-4">
-                                            <div className="flex items-center gap-4">
+                                        {/* Amount + Name */}
+                                        <div className="flex flex-col gap-3 sm:gap-2">
+                                            <div className="flex-col flex sm:flex-row items-end sm:items-center sm:text-right gap-2 flex-wrap">
                                                 <div
-                                                    className={`text-2xl font-semibold ${txn.type === "income"
+                                                    className={`text-xl sm:text-2xl font-semibold ${txn.type === "income"
                                                         ? "text-green-700"
                                                         : "text-red-700"
                                                         }`}
                                                 >
                                                     ₹ {txn.amount}
                                                 </div>
-                                                <div className="text-gray-700 font-medium text-base capitalize truncate max-w-[60%]">
+                                                <div className="text-gray-700 font-medium text-sm capitalize truncate">
                                                     ( {txn.name} )
                                                 </div>
                                             </div>
 
                                             {/* Category */}
-                                            <div className="text-sm text-gray-600 flex items-center gap-2">
+                                            <div className="text-xs sm:text-sm text-gray-600 flex items-center gap-1 sm:gap-2">
                                                 <FaTag className="text-gray-400" />
                                                 <span>
                                                     Category:{" "}
@@ -534,16 +551,15 @@ export default function AllTransactions() {
                                         </div>
                                     </div>
 
-                                    {/* Right Section */}
-                                    <div className="flex flex-col justify-between items-end text-right gap-3">
+                                    {/* Bottom: Right Section (on sm: left aligned again) */}
+                                    <div className="flex flex-col sm:items-end justify-between gap-3 sm:text-right text-left">
                                         {/* Type */}
-                                        <div className="text-sm text-gray-600 flex items-center gap-2 justify-end">
+                                        <div className="text-xs sm:text-sm text-gray-600 flex items-center gap-1 sm:justify-end">
                                             <FaWallet
-                                                className={
-                                                    txn.type === "income"
-                                                        ? "text-green-500"
-                                                        : "text-red-500"
-                                                }
+                                                className={`${txn.type === "income"
+                                                    ? "text-green-500"
+                                                    : "text-red-500"
+                                                    }`}
                                             />
                                             <span>
                                                 Type:{" "}
@@ -558,8 +574,8 @@ export default function AllTransactions() {
                                             </span>
                                         </div>
 
-                                        {/* Date + Buttons */}
-                                        <div className="flex items-center gap-4">
+                                        {/* Date + Action Buttons */}
+                                        <div className="flex items-center justify-between sm:justify-end gap-3 sm:gap-4 flex-wrap">
                                             <div className="text-xs text-txt">
                                                 {new Date(txn.date).toLocaleString("en-IN", {
                                                     year: "numeric",
@@ -571,36 +587,42 @@ export default function AllTransactions() {
                                                 })}
                                             </div>
 
-                                            <Link
-                                                to={`/updatetransaction/${txn._id}`}
-                                                className="text-gray-500 hover:text-blue-600 transition"
-                                                title="Edit"
-                                            >
-                                                <FaEdit className="text-lg" />
-                                            </Link>
-                                            <button
-                                                onClick={() => handleDelete(txn._id)}
-                                                className="text-gray-500 hover:text-red-600 transition hover:cursor-pointer"
-                                                title="Delete"
-                                            >
-                                                <FaTrash className="text-lg" />
-                                            </button>
+                                            <div className="flex items-center gap-3">
+                                                <Link
+                                                    to={`/updatetransaction/${txn._id}`}
+                                                    className="text-gray-500 hover:text-blue-600 transition"
+                                                    title="Edit"
+                                                >
+                                                    <FaEdit className="text-base sm:text-lg" />
+                                                </Link>
+                                                <button
+                                                    onClick={() => handleDelete(txn._id)}
+                                                    className="text-gray-500 hover:text-red-600 transition hover:cursor-pointer"
+                                                    title="Delete"
+                                                >
+                                                    <FaTrash className="text-base sm:text-lg" />
+                                                </button>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
                             ))
                         )}
                     </div>
-                    <div className="mt-12 pb-10 pr-20 pl-3">
-                        <div className="border border-purple-400 rounded-xl px-6 py-4 flex flex-col sm:flex-row justify-between items-center shadow-sm bg-white w-full">
-                            <p className="text-base font-semibold text-sectxt mb-2 sm:mb-0">
+                    <div className="mt-12 pb-10 px-3 sm:px-6 lg:pr-20">
+                        <div className="border border-purple-400 rounded-2xl px-4 sm:px-6 py-4 flex flex-col sm:flex-row justify-between items-center shadow-sm bg-white w-full gap-4 sm:gap-0">
+
+                            {/* Text */}
+                            <p className="text-sm sm:text-base font-semibold text-sectxt text-center sm:text-left">
                                 Want to control your spending better?
                             </p>
+
+                            {/* CTA Button */}
                             <Link
                                 to="/setbudget"
-                                className="inline-flex items-center gap-2 px-6 py-3 border-2 border-secondary text-secondary font-semibold rounded-2xl hover:bg-secondary hover:text-white transition"
+                                className="inline-flex items-center justify-center gap-2 px-5 py-2.5 sm:px-6 sm:py-3 border-2 border-secondary text-secondary font-semibold rounded-xl hover:bg-secondary hover:text-white transition text-sm sm:text-base"
                             >
-                                <FaMoneyBillWave className="text-xl align-middle mr-3" />
+                                <FaMoneyBillWave className="text-lg sm:text-xl" />
                                 <span className="leading-none">Set Budget</span>
                             </Link>
                         </div>
