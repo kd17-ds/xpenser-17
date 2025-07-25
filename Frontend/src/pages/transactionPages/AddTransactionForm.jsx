@@ -55,14 +55,14 @@ export default function AddTransactionForm() {
     };
 
     return (
-        <div className="max-w-xl mx-auto mt-10 p-6 bg-white rounded-2xl shadow-md border border-gray-200">
-            <h2 className="text-2xl font-semibold text-gray-800 mb-6 text-center">
-                Add New Transaction
+        <div className="mt-12 px-4 sm:px-6 lg:px-40 w-full">
+            <h2 className="text-3xl sm:text-4xl text-gray-800 mb-10 text-left">
+                Add New Transaction :
             </h2>
-            <form onSubmit={handleSubmit} className="space-y-4">
+            <form onSubmit={handleSubmit} className="space-y-6 w-full max-w-3xl">
                 {/* Amount */}
                 <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-1">
+                    <label className="block text-sm font-semibold text-sectxt mb-2">
                         Amount (₹)
                     </label>
                     <input
@@ -70,52 +70,53 @@ export default function AddTransactionForm() {
                         name="amount"
                         value={formData.amount}
                         onChange={handleChange}
-                        className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                        min="1"
+                        className="w-full sm:w-60 border border-purple-300 rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-secondary bg-white"
                         required
                     />
                 </div>
 
                 {/* Type */}
                 <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-1">
+                    <label className="block text-sm font-semibold text-sectxt mb-2">
                         Type
                     </label>
-                    <div className="flex gap-6">
-                        <label className="inline-flex items-center">
+                    <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4 sm:gap-6">
+                        <label className="flex items-center gap-2 cursor-pointer">
                             <input
                                 type="radio"
                                 name="type"
                                 value="income"
                                 checked={formData.type === "income"}
                                 onChange={handleChange}
-                                className="form-radio text-green-500"
+                                className="accent-green-500 w-4 h-4"
                             />
-                            <span className="ml-2 text-gray-700">Income</span>
+                            <span className="text-gray-700">Income</span>
                         </label>
-                        <label className="inline-flex items-center">
+                        <label className="flex items-center gap-2 cursor-pointer">
                             <input
                                 type="radio"
                                 name="type"
                                 value="expense"
                                 checked={formData.type === "expense"}
                                 onChange={handleChange}
-                                className="form-radio text-red-500"
+                                className="accent-red-500 w-4 h-4"
                             />
-                            <span className="ml-2 text-gray-700">Expense</span>
+                            <span className="text-gray-700">Expense</span>
                         </label>
                     </div>
                 </div>
 
                 {/* Category */}
                 <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-1">
+                    <label className="block text-sm font-semibold text-sectxt mb-2">
                         Category
                     </label>
                     <select
                         name="category"
                         value={formData.category}
                         onChange={handleChange}
-                        className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                        className="w-full sm:w-72 border border-purple-300 rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-secondary bg-white"
                         required
                     >
                         <option value="">Select category</option>
@@ -127,9 +128,9 @@ export default function AddTransactionForm() {
                     </select>
                 </div>
 
-                {/* Name */}
+                {/* Name / Description */}
                 <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-1">
+                    <label className="block text-sm font-semibold text-sectxt mb-2">
                         Name / Description
                     </label>
                     <input
@@ -137,7 +138,7 @@ export default function AddTransactionForm() {
                         name="name"
                         value={formData.name}
                         onChange={handleChange}
-                        className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                        className="w-full border border-purple-300 rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-secondary bg-white"
                         placeholder="e.g., Bought groceries"
                         required
                     />
@@ -145,7 +146,7 @@ export default function AddTransactionForm() {
 
                 {/* Date */}
                 <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-1">
+                    <label className="block text-sm font-semibold text-sectxt mb-2">
                         Date
                     </label>
                     <input
@@ -153,17 +154,19 @@ export default function AddTransactionForm() {
                         name="date"
                         value={formData.date}
                         onChange={handleChange}
-                        className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                        className="w-full sm:w-72 border border-purple-300 rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-secondary bg-white"
                     />
                 </div>
 
                 {/* Submit */}
                 <button
                     type="submit"
-                    className="w-full bg-blue-600 text-white py-2 px-4 rounded-lg hover:bg-blue-700 transition"
+                    className="w-full bg-secondary text-white py-3 px-6 rounded-xl font-semibold hover:bg-secondary/90 transition cursor-pointer"
                 >
                     Add Transaction
                 </button>
+
+                {/* Message */}
                 {message && (
                     <div
                         className={`text-center mt-4 font-medium ${message.toLowerCase().includes("success")
