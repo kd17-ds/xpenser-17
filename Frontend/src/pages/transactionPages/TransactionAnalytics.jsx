@@ -171,43 +171,49 @@ export default function TransactionAnalytics() {
                 </div>
 
                 {/* RIGHT: Charts */}
-                <div className="lg:col-span-8 space-y-6 px-6 lg:px-0">
+                <div className="lg:col-span-8 px-6 my-auto lg:px-0">
                     {/* Category-wise Pie */}
-                    <div className="text-center p-6">
-                        <h3 className="text-3xl  mb-6">Category-wise Distribution</h3>
-                        <div className="flex justify-center flex-wrap gap-4 mb-6">
-                            <select
-                                value={month}
-                                onChange={e => setMonth(e.target.value)}
-                                className="px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-                            >
-                                <option value="">All Months</option>
-                                {months.map(m => <option key={m} value={m}>{m}</option>)}
-                            </select>
-                            <select
-                                value={year2}
-                                onChange={e => setYear2(e.target.value)}
-                                className="px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-                            >
-                                <option value="">All Years</option>
-                                {years.map(y => <option key={y} value={y}>{y}</option>)}
-                            </select>
+                    <div className="text-center ">
+                        <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4 mt-4 mx-0 sm:mx-10">
+                            <h3 className="text-2xl sm:text-3xl text-center lg:text-left text-txt">Category-wise Distribution</h3>
+                            <div className="flex flex-wrap justify-center lg:justify-end gap-4">
+                                <select
+                                    value={month}
+                                    onChange={e => setMonth(e.target.value)}
+                                    className="px-4 py-2 min-w-[140px] border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                >
+                                    <option value="">All Months</option>
+                                    {months.map(m => (
+                                        <option key={m} value={m}>{m}</option>
+                                    ))}
+                                </select>
+                                <select
+                                    value={year2}
+                                    onChange={e => setYear2(e.target.value)}
+                                    className="px-4 py-2 min-w-[140px] border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                >
+                                    <option value="">All Years</option>
+                                    {years.map(y => (
+                                        <option key={y} value={y}>{y}</option>
+                                    ))}
+                                </select>
+                            </div>
                         </div>
                         <CategoryPieChart transactions={filterTxns(month, year2)} />
                     </div>
                 </div>
             </div>
 
-            <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 mt-12 px-6 lg:px-0">
+            <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 mt-12 lg:px-0">
                 {/* Monthly Expenses (Left) */}
                 <div className="lg:col-span-6">
-                    <div className=" rounded-2xl p-6 ">
-                        <h3 className="text-xl font-semibold mb-4">Monthly Expenses</h3>
-                        <div className="flex flex-wrap gap-4 mb-6">
+                    <div className="rounded-2xl p-4 sm:p-6">
+                        <div className="flex flex-col sm:flex-row justify-between gap-4 items-start sm:items-center mx-2 sm:mx-5 mb-6">
+                            <h3 className="text-2xl sm:text-3xl">Monthly Expenses</h3>
                             <select
                                 value={year1}
                                 onChange={e => setYear1(e.target.value)}
-                                className="px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                className="px-4 py-2 min-w-[140px] border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
                             >
                                 <option value="">All Years</option>
                                 {years.map(y => <option key={y} value={y}>{y}</option>)}
@@ -218,18 +224,22 @@ export default function TransactionAnalytics() {
                 </div>
 
                 {/* Stacked Category Bar (Right) */}
-                <div className="lg:col-span-6">
-                    <div className=" rounded-2xl p-6 ">
-                        <h3 className="text-xl font-semibold mb-4">Stacked Category Bar</h3>
-                        <div className="flex flex-wrap gap-4 mb-6">
-                            <select
-                                value={year3}
-                                onChange={e => setYear3(e.target.value)}
-                                className="px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-                            >
-                                <option value="">All Years</option>
-                                {years.map(y => <option key={y} value={y}>{y}</option>)}
-                            </select>
+                <div className="lg:col-span-6 mt-8 lg:mt-0">
+                    <div className="rounded-2xl p-4 sm:p-6">
+                        <div className="flex flex-col sm:flex-row justify-between gap-4 items-start sm:items-center mx-2 sm:mx-5 mb-6">
+                            <h3 className="text-2xl sm:text-3xl whitespace-nowrap">Stacked Category Bar</h3>
+                            <div className="w-full sm:w-auto">
+                                <select
+                                    value={year3}
+                                    onChange={e => setYear3(e.target.value)}
+                                    className="px-4 py-2 min-w-[140px] border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                >
+                                    <option value="">All Years</option>
+                                    {years.map(y => (
+                                        <option key={y} value={y}>{y}</option>
+                                    ))}
+                                </select>
+                            </div>
                         </div>
                         <StackedCategoryBarChart transactions={filterTxns("", year3)} />
                     </div>

@@ -25,23 +25,30 @@ export default function CategoryPieChart({ transactions }) {
                 label: 'Expenses (₹)',
                 data: values,
                 backgroundColor: [
-                    'rgba(255, 99, 132, 0.6)',
-                    'rgba(54, 162, 235, 0.6)',
-                    'rgba(255, 206, 86, 0.6)',
-                    'rgba(75, 192, 192, 0.6)',
-                    'rgba(153, 102, 255, 0.6)',
-                    'rgba(255, 159, 64, 0.6)',
-                    'rgba(199, 199, 199, 0.6)',
-                    'rgba(100, 255, 218, 0.6)'
+                    'rgba(59, 130, 246, 0.75)',     // Blue
+                    'rgba(16, 185, 129, 0.75)',     // Green
+                    'rgba(234, 179, 8, 0.75)',      // Yellow
+                    'rgba(239, 68, 68, 0.75)',      // Red
+                    'rgba(107, 114, 128, 0.75)',    // Gray
+                    'rgba(99, 102, 241, 0.75)',     // Indigo
+                    'rgba(236, 72, 153, 0.75)',     // Pink
+                    'rgba(20, 184, 166, 0.75)',     // Teal
                 ],
                 hoverOffset: 4
             }],
     };
+    const options = {
+        plugins: {
+            legend: { position: "left" },
+        },
+    };
+
 
     return (
-        <div className="max-w-2xl mx-auto mt-10 bg-white p-4 rounded-xl shadow-md">
-            <h3 className="text-xl font-semibold text-center mb-4">Category Expenses</h3>
-            <Pie data={data} />
+        <div className="w-full px-4 sm:px-0">
+            <div className="max-w-md sm:max-w-2xl mx-auto">
+                <Pie data={data} options={options} />
+            </div>
         </div>
     );
 }
