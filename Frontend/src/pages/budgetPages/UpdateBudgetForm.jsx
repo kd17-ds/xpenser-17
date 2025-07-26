@@ -91,20 +91,24 @@ export default function UpdateBudgetForm() {
     };
 
     return (
-        <div className="max-w-xl mx-auto mt-12 p-6 bg-white rounded-2xl shadow-lg border border-gray-200">
-            <h2 className="text-3xl font-bold text-center text-blue-600 mb-6">Update Monthly Budget</h2>
+        <div className="mt-12 px-4 sm:px-6 lg:px-40 w-full">
+            <h2 className="text-3xl sm:text-4xl text-gray-800 mb-10 text-left">
+                Update Budget :
+            </h2>
 
-            <form onSubmit={handleSubmit} className="space-y-6">
+            <form onSubmit={handleSubmit} className="space-y-8 w-full max-w-3xl">
                 {/* Month & Year */}
-                <div className="flex gap-4">
+                <div className="flex flex-col sm:flex-row gap-6">
                     <div className="flex-1">
-                        <label className="block font-medium mb-1">Month</label>
+                        <label className="block text-sm font-semibold text-sectxt mb-2">
+                            Month
+                        </label>
                         <select
                             name="month"
                             value={formData.month}
                             onChange={handleChange}
                             required
-                            className="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400"
+                            className="w-full border border-purple-300 rounded-xl px-4 py-3 text-sm bg-white focus:outline-none focus:ring-2 focus:ring-secondary"
                         >
                             <option value="">Select month</option>
                             {months.map((m, i) => (
@@ -112,9 +116,10 @@ export default function UpdateBudgetForm() {
                             ))}
                         </select>
                     </div>
-
                     <div className="flex-1">
-                        <label className="block font-medium mb-1">Year</label>
+                        <label className="block text-sm font-semibold text-sectxt mb-2">
+                            Year
+                        </label>
                         <input
                             type="number"
                             name="year"
@@ -124,23 +129,26 @@ export default function UpdateBudgetForm() {
                             value={formData.year}
                             onChange={handleChange}
                             required
-                            className="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400"
+                            className="w-full border border-purple-300 rounded-xl px-4 py-3 text-sm bg-white focus:outline-none focus:ring-2 focus:ring-secondary"
                         />
                     </div>
                 </div>
 
-                {/* Budget for each category */}
-                <div className="grid grid-cols-2 gap-4">
+                {/* Budget Inputs */}
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
                     {categories.map((cat) => (
                         <div key={cat}>
-                            <label className="block text-gray-700 font-medium mb-1">{cat}</label>
+                            <label className="block text-sm font-semibold text-sectxt mb-2">
+                                {cat}
+                            </label>
                             <input
                                 type="number"
                                 name={cat}
                                 value={formData.categories[cat]}
                                 onChange={handleChange}
                                 placeholder="₹ 0"
-                                className="w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400"
+                                min="0"
+                                className="w-full border border-purple-300 rounded-xl px-4 py-3 text-sm bg-white focus:outline-none focus:ring-2 focus:ring-secondary"
                             />
                         </div>
                     ))}
@@ -148,14 +156,19 @@ export default function UpdateBudgetForm() {
 
                 <button
                     type="submit"
-                    className="w-full py-3 mt-6 bg-blue-600 text-white text-lg font-semibold rounded-lg hover:bg-blue-700 transition"
+                    className="w-full bg-secondary text-white py-3 px-6 rounded-xl font-semibold hover:bg-secondary/90 transition cursor-pointer"
                 >
                     Update Budget
                 </button>
 
-                {/* Feedback Message */}
+                {/* Message */}
                 {message && (
-                    <div className={`text-center text-sm mt-2 ${message.includes("success") ? "text-green-600" : "text-red-600"}`}>
+                    <div
+                        className={`text-center mt-4 font-medium ${message.toLowerCase().includes("success")
+                            ? "text-green-600"
+                            : "text-red-600"
+                            }`}
+                    >
                         {message}
                     </div>
                 )}
