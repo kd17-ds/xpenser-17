@@ -98,9 +98,9 @@ export default function AllBudgets() {
     }, {});
 
     return (
-        <div className="max-w-8xl mx-auto mt-12 md:px-12 space-y-8">
+        <div className="max-w-8xl mx-auto mt-12 px-5 md:px-12 space-y-8">
             {/* Header */}
-            <div className="flex flex-col lg:flex-row lg:justify-between items-center mb-14 gap-6 lg:gap-10 px-4 sm:px-0">
+            <div className="flex flex-col lg:flex-row lg:justify-between items-center mb-14 gap-6 lg:gap-10 sm:px-0">
                 <div className="text-center lg:text-left">
                     <h1 className="text-4xl sm:text-6xl text-txt drop-shadow-sm">
                         Budget Beacon
@@ -124,19 +124,23 @@ export default function AllBudgets() {
             </div>
 
             {/* Filters */}
-            <div className="flex justify-between items-center mb-10 flex-wrap gap-4">
-                <div className="text-center">
+            <div className="flex flex-col md:flex-row md:justify-between md:items-center gap-6 mb-10">
+                {/* Link Button */}
+                <div className="text-center md:text-left">
                     <Link
                         to="/budgetvsexpensecomparison"
-                        className="inline-flex items-center gap-2 px-6 py-3 border-2 border-txt text-txt font-semibold rounded-2xl hover:bg-txt hover:text-white transition"
+                        className="inline-flex items-center gap-2 px-4 sm:px-6 py-3 border-2 border-txt text-txt font-semibold rounded-2xl hover:bg-txt hover:text-white transition whitespace-nowrap"
                     >
                         <FaSearchDollar className="text-xl" />
                         <span>Budget & Expense Summary</span>
                     </Link>
                 </div>
-                <div className="flex flex-wrap items-center gap-4 bg-purple-50 border border-purple-200 px-6 py-4 rounded-xl shadow-sm">
-                    <div className="flex items-center gap-4">
-                        <label className="text-sm font-semibold text-purple-700">View:</label>
+
+                {/* Filter Box */}
+                <div className="flex flex-wrap items-center justify-start gap-3 sm:gap-4 bg-purple-50 border border-purple-200 px-4 sm:px-6 py-4 rounded-xl shadow-sm ">
+                    {/* View Mode */}
+                    <div className="flex items-center gap-2">
+                        <label className="text-sm font-semibold text-purple-700 whitespace-nowrap">View:</label>
                         <select
                             value={viewMode}
                             onChange={(e) => {
@@ -150,11 +154,12 @@ export default function AllBudgets() {
                         </select>
                     </div>
 
+                    {/* Month Filter */}
                     <select
                         value={monthFilter}
                         onChange={(e) => setMonthFilter(e.target.value)}
-                        className="px-4 py-2 border border-purple-300 rounded-md focus:outline-none focus:ring-2 focus:ring-purple-400 bg-white text-sm"
                         disabled={isYearOnly}
+                        className="px-4 py-2 border border-purple-300 rounded-md focus:outline-none focus:ring-2 focus:ring-purple-400 bg-white text-sm min-w-[120px]"
                     >
                         {months.map((m, i) => (
                             <option key={i} value={m}>
@@ -163,6 +168,7 @@ export default function AllBudgets() {
                         ))}
                     </select>
 
+                    {/* Year Filter */}
                     <input
                         type="number"
                         placeholder="Year"
@@ -170,20 +176,22 @@ export default function AllBudgets() {
                         min="2020"
                         max="2100"
                         onChange={(e) => setYearFilter(e.target.value)}
-                        className="px-4 py-2 border border-purple-300 rounded-md focus:outline-none focus:ring-2 focus:ring-purple-400 bg-white text-sm"
+                        className="px-4 py-2 border border-purple-300 rounded-md focus:outline-none focus:ring-2 focus:ring-purple-400 bg-white text-sm w-[100px]"
                     />
 
+                    {/* Clear Button */}
                     <button
                         onClick={() => {
                             setMonthFilter("");
                             setYearFilter("");
                             setViewMode("monthly");
                         }}
-                        className="bg-red-500 text-white text-sm font-medium px-4 py-2 rounded-lg hover:bg-red-600 hover:cursor-pointer transition shadow"
+                        className="bg-red-500 text-white text-sm font-medium px-4 py-2 rounded-lg hover:bg-red-600 transition shadow whitespace-nowrap"
                     >
                         Clear Filters
                     </button>
                 </div>
+
             </div>
 
             {error && <p className="text-red-500 text-center">{error}</p>}
@@ -196,20 +204,29 @@ export default function AllBudgets() {
                     <div className="space-y-6">
                         {isYearOnly
                             ? Object.entries(yearlyGroupedBudgets).map(([year, cats]) => (
-                                <div key={year} className="p-5 rounded-xl shadow-md border-l-4 border-purple-500 bg-purple-50 hover:scale-[1.01] transition-transform">
+                                <div
+                                    key={year}
+                                    className="p-5 rounded-xl shadow-md border-l-4 border-purple-500 bg-purple-50 hover:scale-[1.01] transition-transform"
+                                >
                                     <div className="mb-5">
                                         <h3 className="text-xl font-semibold text-purple-700 flex justify-between items-center">
                                             <span>Year {year} ( Budget )</span>
-                                            <span className="text-lg text-purple-600 font-semibold ml-4">₹ {Object.values(cats).reduce((acc, val) => acc + val, 0)}</span>
+                                            <span className="hidden sm:inline text-lg text-purple-600 font-semibold">
+                                                ₹ {Object.values(cats).reduce((acc, val) => acc + val, 0)}
+                                            </span>
                                         </h3>
                                     </div>
-                                    <div className="grid grid-cols-2 gap-3 text-sm text-gray-700">
+                                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-sm text-gray-700">
                                         {Object.entries(cats).map(([cat, amt]) => (
                                             <div key={cat} className="flex justify-between border-b py-1">
-                                                <span className="font-medium">{cat}</span>
+                                                <span className="font-medium break-words max-w-[60%]">{cat}</span>
                                                 <span>₹ {amt || 0}</span>
                                             </div>
                                         ))}
+                                    </div>
+                                    {/* Responsive Total for Budget */}
+                                    <div className="sm:hidden mt-5 text-right text-lg text-purple-600">
+                                        Total Budget: ₹ {Object.values(cats).reduce((acc, val) => acc + val, 0)}
                                     </div>
                                 </div>
                             ))
@@ -220,32 +237,46 @@ export default function AllBudgets() {
                                 >
                                     <div className="flex justify-between items-center mb-5">
                                         <h3 className="text-xl font-semibold text-purple-700">
-                                            <span>{bgt.month} {bgt.year} ( Budget )</span>
+                                            <span>
+                                                {bgt.month} {bgt.year} ( Budget )
+                                            </span>
                                         </h3>
 
                                         <div className="relative w-fit">
-                                            {/* ₹ Price (always visible) */}
-                                            <span className="text-lg font-semibold text-purple-600 z-10 relative">₹ {Object.values(bgt.categories).reduce((acc, val) => acc + val, 0)}</span>
+                                            <span className="hidden sm:inline text-lg font-semibold text-purple-600 z-10 relative">
+                                                ₹ {Object.values(bgt.categories).reduce((acc, val) => acc + val, 0)}
+                                            </span>
 
-                                            {/* Floating buttons (overlapping the price) */}
-                                            <div className="absolute inset-0 flex items-center justify-end gap-3 opacity-0 group-hover:opacity-100 transition-opacity duration-300 bg-purple-50 z-20">
-                                                <Link to={`/updatebudget/${bgt._id}`} className="text-gray-500 hover:text-purple-600">
+                                            <div className="absolute inset-0 flex items-center justify-end gap-3 
+                                        sm:opacity-0 sm:group-hover:opacity-100 
+                                        opacity-100 transition-opacity duration-300 bg-purple-50 z-20">
+                                                <Link
+                                                    to={`/updatebudget/${bgt._id}`}
+                                                    className="text-gray-500 hover:text-purple-600"
+                                                >
                                                     <FaEdit />
                                                 </Link>
-                                                <button onClick={() => handleDelete(bgt._id)} className="text-gray-500 hover:text-red-600">
+                                                <button
+                                                    onClick={() => handleDelete(bgt._id)}
+                                                    className="text-gray-500 hover:text-red-600"
+                                                >
                                                     <FaTrash />
                                                 </button>
                                             </div>
                                         </div>
                                     </div>
 
-                                    <div className="grid grid-cols-2 gap-3 text-sm text-gray-700">
+                                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-sm text-gray-700">
                                         {Object.entries(bgt.categories).map(([cat, amt]) => (
                                             <div key={cat} className="flex justify-between border-b py-1">
-                                                <span className="font-medium">{cat}</span>
+                                                <span className="font-medium break-words max-w-[60%]">{cat}</span>
                                                 <span>₹ {amt || 0}</span>
                                             </div>
                                         ))}
+                                    </div>
+                                    {/* Responsive Total for Budget */}
+                                    <div className="sm:hidden mt-5 text-right text-lg text-purple-600">
+                                        Total Budget: ₹ {Object.values(bgt.categories).reduce((acc, val) => acc + val, 0)}
                                     </div>
                                 </div>
                             ))}
@@ -257,20 +288,39 @@ export default function AllBudgets() {
                             ? Object.entries(yearlyGroupedBudgets).map(([year, cats]) => {
                                 const expenses = yearlyExpenses[year] || {};
                                 return (
-                                    <div key={`expense-${year}`} className="p-5 rounded-xl shadow-md border-l-4 border-red-400 bg-red-50 hover:scale-[1.01] transition-transform">
+                                    <div
+                                        key={`expense-${year}`}
+                                        className="p-5 rounded-xl shadow-md border-l-4 border-red-400 bg-red-50 hover:scale-[1.01] transition-transform"
+                                    >
                                         <div className="mb-5">
                                             <h3 className="text-xl font-semibold text-red-700 flex justify-between items-center">
                                                 <span>Year {year} ( Expenses )</span>
-                                                <span className="text-lg text-red-600 font-semibold ml-4">₹ {Object.keys(cats).reduce((sum, cat) => sum + (expenses[cat] || 0), 0)}</span>
+                                                <span className="hidden sm:inline text-lg text-red-600 font-semibold">
+                                                    ₹{" "}
+                                                    {Object.keys(cats).reduce(
+                                                        (sum, cat) => sum + (expenses[cat] || 0),
+                                                        0
+                                                    )}
+                                                </span>
                                             </h3>
                                         </div>
-                                        <div className="grid grid-cols-2 gap-3 text-sm text-gray-700">
+                                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-sm text-gray-700">
                                             {Object.keys(cats).map((cat) => (
-                                                <div key={cat} className="flex justify-between border-b py-1">
-                                                    <span className="font-medium">{cat}</span>
+                                                <div
+                                                    key={cat}
+                                                    className="flex justify-between border-b py-1"
+                                                >
+                                                    <span className="font-medium break-words max-w-[60%]">{cat}</span>
                                                     <span>₹ {expenses[cat] || 0}</span>
                                                 </div>
                                             ))}
+                                        </div>
+                                        {/* Responsive Total for Expenses */}
+                                        <div className="sm:hidden mt-5 text-right text-lg  text-red-600">
+                                            Total Expenses: ₹ {Object.keys(cats).reduce(
+                                                (sum, cat) => sum + (expenses[cat] || 0),
+                                                0
+                                            )}
                                         </div>
                                     </div>
                                 );
@@ -279,20 +329,39 @@ export default function AllBudgets() {
                                 const key = `${bgt.month} ${bgt.year}`;
                                 const expenses = monthlyExpenses[key] || {};
                                 return (
-                                    <div key={`expense-${bgt._id}`} className="p-5 rounded-xl shadow-md border-l-4 border-red-400 bg-red-50 hover:scale-[1.01] transition-transform">
+                                    <div
+                                        key={`expense-${bgt._id}`}
+                                        className="p-5 rounded-xl shadow-md border-l-4 border-red-400 bg-red-50 hover:scale-[1.01] transition-transform"
+                                    >
                                         <div className="mb-5">
                                             <h3 className="text-xl font-semibold text-red-700 flex justify-between items-center">
                                                 <span>{key} ( Expenses )</span>
-                                                <span className="text-lg text-red-600 font-semibold ml-4">₹ {Object.keys(bgt.categories).reduce((sum, cat) => sum + (expenses[cat] || 0), 0)}</span>
+                                                <span className="hidden sm:inline text-lg text-red-600 font-semibold">
+                                                    ₹{" "}
+                                                    {Object.keys(bgt.categories).reduce(
+                                                        (sum, cat) => sum + (expenses[cat] || 0),
+                                                        0
+                                                    )}
+                                                </span>
                                             </h3>
                                         </div>
-                                        <div className="grid grid-cols-2 gap-3 text-sm text-gray-700">
+                                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-sm text-gray-700">
                                             {Object.keys(bgt.categories).map((cat) => (
-                                                <div key={cat} className="flex justify-between border-b py-1">
-                                                    <span className="font-medium">{cat}</span>
+                                                <div
+                                                    key={cat}
+                                                    className="flex justify-between border-b py-1"
+                                                >
+                                                    <span className="font-medium break-words max-w-[60%]">{cat}</span>
                                                     <span>₹ {expenses[cat] || 0}</span>
                                                 </div>
                                             ))}
+                                        </div>
+                                        {/* Responsive Total for Expenses */}
+                                        <div className="sm:hidden mt-5 text-right text-lg  text-red-600">
+                                            Total Expenses: ₹ {Object.keys(bgt.categories).reduce(
+                                                (sum, cat) => sum + (expenses[cat] || 0),
+                                                0
+                                            )}
                                         </div>
                                     </div>
                                 );
@@ -301,7 +370,9 @@ export default function AllBudgets() {
                 </div>
             )}
 
-            {message && <div className="text-center mt-4 font-medium text-green-600">{message}</div>}
+            {message && (
+                <div className="text-center mt-4 font-medium text-green-600">{message}</div>
+            )}
         </div>
     );
 }
