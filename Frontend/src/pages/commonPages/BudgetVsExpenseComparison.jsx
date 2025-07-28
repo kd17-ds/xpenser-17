@@ -118,7 +118,7 @@ export default function BudgetVsExpenseComparison() {
                     </div>
 
                     {/* Filters Box */}
-                    <div className="bg-gradient-to-br from-purple-100 via-white to-purple-50 p-6 rounded-2xl border border-secondary/30 shadow-md space-y-4 mx-auto w-fit min-w-[340px] mb-6">
+                    <div className="bg-gradient-to-br from-purple-100 via-white to-purple-50 p-6 rounded-2xl border border-secondary/30 shadow-md space-y-4 mx-auto w-fit  mb-6">
                         <div className="flex flex-wrap justify-center gap-6">
                             {/* Month */}
                             <div className="w-40">
@@ -188,7 +188,7 @@ export default function BudgetVsExpenseComparison() {
                     </h3>
 
                     {/* Filters Box */}
-                    <div className="bg-gradient-to-br from-purple-100 via-white to-purple-50 p-6.5 rounded-2xl border border-secondary/30 shadow-md space-y-4 mx-auto w-fit min-w-[340px] mb-6">
+                    <div className="bg-gradient-to-br from-purple-100 via-white to-purple-50 p-6.5 rounded-2xl border border-secondary/30 shadow-md space-y-4 mx-auto w-fit mb-6">
                         <div className="flex flex-wrap justify-center gap-6">
 
                             {/* From Month */}
@@ -315,7 +315,7 @@ export default function BudgetVsExpenseComparison() {
                         Category-wise Budget vs Expense
                     </h3>
 
-                    <div className="bg-gradient-to-br from-purple-100 via-white to-purple-50 p-6 rounded-2xl border border-secondary/30 shadow-md space-y-6 mx-auto lg:mx-0 w-fit min-w-[340px]">
+                    <div className="bg-gradient-to-br from-purple-100 via-white to-purple-50 p-6 rounded-2xl border border-secondary/30 shadow-md space-y-6 mx-auto lg:mx-0 w-fit ">
                         {/* Filters Section */}
                         <div className="flex flex-wrap justify-center gap-6">
                             {/* Comparison Type */}
