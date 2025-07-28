@@ -51,7 +51,7 @@ export default function BudgetVsExpenseBarChart({ budgets, transactions }) {
     const options = {
         responsive: true,
         plugins: {
-            legend: { position: 'top' },
+            legend: { position: 'bottom' },
             title: {
                 display: true,
                 text: "Budget vs Expenses (Monthly)",
@@ -79,11 +79,12 @@ export default function BudgetVsExpenseBarChart({ budgets, transactions }) {
 
     return (
         <div className="max-w-3xl mx-auto mt-10 bg-white p-6 rounded-xl shadow-md">
-            <h3 className="text-xl font-semibold text-center mb-4">Budget vs Expenses</h3>
             {months.length === 0 ? (
                 <p className="text-center text-gray-500">No data available to display.</p>
             ) : (
-                <Bar data={data} options={options} />
+                <div className="h-full">
+                    <Bar data={data} options={options} />
+                </div>
             )}
         </div>
     );

@@ -141,32 +141,64 @@ export default function AllBudgets() {
                     {/* View Mode */}
                     <div className="flex items-center gap-2">
                         <label className="text-sm font-semibold text-purple-700 whitespace-nowrap">View:</label>
-                        <select
-                            value={viewMode}
-                            onChange={(e) => {
-                                setViewMode(e.target.value);
-                                if (e.target.value === "yearly") setMonthFilter("");
-                            }}
-                            className="px-3 py-2 border border-purple-300 rounded-md bg-white text-sm focus:outline-none focus:ring-2 focus:ring-purple-400"
-                        >
-                            <option value="monthly">Monthly</option>
-                            <option value="yearly">Yearly</option>
-                        </select>
+                        <div className="relative">
+                            <select
+                                value={viewMode}
+                                onChange={(e) => {
+                                    setViewMode(e.target.value);
+                                    if (e.target.value === "yearly") setMonthFilter("");
+                                }}
+                                className="w-full appearance-none border border-purple-300 rounded-lg pl-3 pr-10 py-2 text-sm bg-white text-gray-800 shadow-sm focus:outline-none focus:ring-2 focus:ring-purple-400 focus:border-purple-500 transition hover:cursor-pointer"
+
+                            >
+                                <option value="monthly">Monthly</option>
+                                <option value="yearly">Yearly</option>
+                            </select>
+                            <div className="pointer-events-none absolute inset-y-0 right-3 flex items-center text-purple-500">
+                                <svg
+                                    className="w-4 h-4"
+                                    viewBox="0 0 20 20"
+                                    fill="currentColor"
+                                >
+                                    <path
+                                        fillRule="evenodd"
+                                        d="M5.23 7.21a.75.75 0 011.06.02L10 11.293l3.71-4.06a.75.75 0 111.1 1.02l-4.25 4.65a.75.75 0 01-1.1 0l-4.25-4.65a.75.75 0 01.02-1.06z"
+                                        clipRule="evenodd"
+                                    />
+                                </svg>
+                            </div>
+                        </div>
                     </div>
 
                     {/* Month Filter */}
-                    <select
-                        value={monthFilter}
-                        onChange={(e) => setMonthFilter(e.target.value)}
-                        disabled={isYearOnly}
-                        className="px-4 py-2 border border-purple-300 rounded-md focus:outline-none focus:ring-2 focus:ring-purple-400 bg-white text-sm min-w-[120px]"
-                    >
-                        {months.map((m, i) => (
-                            <option key={i} value={m}>
-                                {m || "All Months"}
-                            </option>
-                        ))}
-                    </select>
+                    <div className="relative">
+                        <select
+                            value={monthFilter}
+                            onChange={(e) => setMonthFilter(e.target.value)}
+                            disabled={isYearOnly}
+                            className="w-full appearance-none border border-purple-300 rounded-lg pl-3 pr-10 py-2 text-sm bg-white text-gray-800 shadow-sm focus:outline-none focus:ring-2 focus:ring-purple-400 focus:border-purple-500 transition hover:cursor-pointer"
+
+                        >
+                            {months.map((m, i) => (
+                                <option key={i} value={m}>
+                                    {m || "All Months"}
+                                </option>
+                            ))}
+                        </select>
+                        <div className="pointer-events-none absolute inset-y-0 right-3 flex items-center text-purple-500">
+                            <svg
+                                className="w-4 h-4"
+                                viewBox="0 0 20 20"
+                                fill="currentColor"
+                            >
+                                <path
+                                    fillRule="evenodd"
+                                    d="M5.23 7.21a.75.75 0 011.06.02L10 11.293l3.71-4.06a.75.75 0 111.1 1.02l-4.25 4.65a.75.75 0 01-1.1 0l-4.25-4.65a.75.75 0 01.02-1.06z"
+                                    clipRule="evenodd"
+                                />
+                            </svg>
+                        </div>
+                    </div>
 
                     {/* Year Filter */}
                     <input

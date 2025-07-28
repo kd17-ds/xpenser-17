@@ -92,7 +92,7 @@ export default function BudgetTrendLineChart({ budgets, transactions, fromMonth,
     const options = {
         responsive: true,
         plugins: {
-            legend: { position: "top" },
+            legend: { position: "bottom" },
             title: {
                 display: true,
                 text: `Budget vs Expense Trend (${fromMonth} ${fromYear} - ${toMonth} ${toYear})`,

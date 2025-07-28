@@ -177,26 +177,48 @@ export default function TransactionAnalytics() {
                         <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4 mt-4 mx-0 sm:mx-10">
                             <h3 className="text-2xl sm:text-3xl text-center lg:text-left text-txt">Category-wise Distribution</h3>
                             <div className="flex flex-wrap justify-center lg:justify-end gap-4">
-                                <select
-                                    value={month}
-                                    onChange={e => setMonth(e.target.value)}
-                                    className="px-4 py-2 min-w-[140px] border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-                                >
-                                    <option value="">All Months</option>
-                                    {months.map(m => (
-                                        <option key={m} value={m}>{m}</option>
-                                    ))}
-                                </select>
-                                <select
-                                    value={year2}
-                                    onChange={e => setYear2(e.target.value)}
-                                    className="px-4 py-2 min-w-[140px] border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-                                >
-                                    <option value="">All Years</option>
-                                    {years.map(y => (
-                                        <option key={y} value={y}>{y}</option>
-                                    ))}
-                                </select>
+                                <div className="relative">
+                                    <select
+                                        value={month}
+                                        onChange={e => setMonth(e.target.value)}
+                                        className="w-full appearance-none border border-purple-300 rounded-md pl-3 pr-8 py-2 text-sm bg-white text-gray-800 shadow-sm focus:outline-none focus:ring-1 focus:ring-purple-400 focus:border-purple-500"
+                                    >
+                                        <option value="">All Months</option>
+                                        {months.map(m => (
+                                            <option key={m} value={m}>{m}</option>
+                                        ))}
+                                    </select>
+                                    <div className="pointer-events-none absolute inset-y-0 right-2 flex items-center text-purple-500">
+                                        <svg className="w-4 h-4" viewBox="0 0 20 20" fill="currentColor">
+                                            <path
+                                                fillRule="evenodd"
+                                                d="M5.23 7.21a.75.75 0 011.06.02L10 11.293l3.71-4.06a.75.75 0 111.1 1.02l-4.25 4.65a.75.75 0 01-1.1 0l-4.25-4.65a.75.75 0 01.02-1.06z"
+                                                clipRule="evenodd"
+                                            />
+                                        </svg>
+                                    </div>
+                                </div>
+                                <div className="relative">
+                                    <select
+                                        value={year2}
+                                        onChange={e => setYear2(e.target.value)}
+                                        className="w-full appearance-none border border-purple-300 rounded-md pl-3 pr-8 py-2 text-sm bg-white text-gray-800 shadow-sm focus:outline-none focus:ring-1 focus:ring-purple-400 focus:border-purple-500"
+                                    >
+                                        <option value="">All Years</option>
+                                        {years.map(y => (
+                                            <option key={y} value={y}>{y}</option>
+                                        ))}
+                                    </select>
+                                    <div className="pointer-events-none absolute inset-y-0 right-2 flex items-center text-purple-500">
+                                        <svg className="w-4 h-4" viewBox="0 0 20 20" fill="currentColor">
+                                            <path
+                                                fillRule="evenodd"
+                                                d="M5.23 7.21a.75.75 0 011.06.02L10 11.293l3.71-4.06a.75.75 0 111.1 1.02l-4.25 4.65a.75.75 0 01-1.1 0l-4.25-4.65a.75.75 0 01.02-1.06z"
+                                                clipRule="evenodd"
+                                            />
+                                        </svg>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                         <CategoryPieChart transactions={filterTxns(month, year2)} />
@@ -210,14 +232,25 @@ export default function TransactionAnalytics() {
                     <div className="rounded-2xl p-4 sm:p-6">
                         <div className="flex flex-col sm:flex-row justify-between gap-4 items-start sm:items-center mx-2 sm:mx-5 mb-6">
                             <h3 className="text-2xl sm:text-3xl">Monthly Expenses</h3>
-                            <select
-                                value={year1}
-                                onChange={e => setYear1(e.target.value)}
-                                className="px-4 py-2 min-w-[140px] border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-                            >
-                                <option value="">All Years</option>
-                                {years.map(y => <option key={y} value={y}>{y}</option>)}
-                            </select>
+                            <div className="relative">
+                                <select
+                                    value={year1}
+                                    onChange={e => setYear1(e.target.value)}
+                                    className="w-full appearance-none border border-purple-300 rounded-md pl-3 pr-8 py-2 text-sm bg-white text-gray-800 shadow-sm focus:outline-none focus:ring-1 focus:ring-purple-400 focus:border-purple-500"
+                                >
+                                    <option value="">All Years</option>
+                                    {years.map(y => <option key={y} value={y}>{y}</option>)}
+                                </select>
+                                <div className="pointer-events-none absolute inset-y-0 right-2 flex items-center text-purple-500">
+                                    <svg className="w-4 h-4" viewBox="0 0 20 20" fill="currentColor">
+                                        <path
+                                            fillRule="evenodd"
+                                            d="M5.23 7.21a.75.75 0 011.06.02L10 11.293l3.71-4.06a.75.75 0 111.1 1.02l-4.25 4.65a.75.75 0 01-1.1 0l-4.25-4.65a.75.75 0 01.02-1.06z"
+                                            clipRule="evenodd"
+                                        />
+                                    </svg>
+                                </div>
+                            </div>
                         </div>
                         <MonthlyExpensesChart transactions={filterTxns("", year1)} />
                     </div>
@@ -228,17 +261,27 @@ export default function TransactionAnalytics() {
                     <div className="rounded-2xl p-4 sm:p-6">
                         <div className="flex flex-col sm:flex-row justify-between gap-4 items-start sm:items-center mx-2 sm:mx-5 mb-6">
                             <h3 className="text-2xl sm:text-3xl whitespace-nowrap">Stacked Category Bar</h3>
-                            <div className="w-full sm:w-auto">
+                            <div className="relative">
                                 <select
                                     value={year3}
                                     onChange={e => setYear3(e.target.value)}
-                                    className="px-4 py-2 min-w-[140px] border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                    className="w-full appearance-none border border-purple-300 rounded-md pl-3 pr-8 py-2 text-sm bg-white text-gray-800 shadow-sm focus:outline-none focus:ring-1 focus:ring-purple-400 focus:border-purple-500"
                                 >
                                     <option value="">All Years</option>
                                     {years.map(y => (
                                         <option key={y} value={y}>{y}</option>
                                     ))}
                                 </select>
+
+                                <div className="pointer-events-none absolute inset-y-0 right-2 flex items-center text-purple-500">
+                                    <svg className="w-4 h-4" viewBox="0 0 20 20" fill="currentColor">
+                                        <path
+                                            fillRule="evenodd"
+                                            d="M5.23 7.21a.75.75 0 011.06.02L10 11.293l3.71-4.06a.75.75 0 111.1 1.02l-4.25 4.65a.75.75 0 01-1.1 0l-4.25-4.65a.75.75 0 01.02-1.06z"
+                                            clipRule="evenodd"
+                                        />
+                                    </svg>
+                                </div>
                             </div>
                         </div>
                         <StackedCategoryBarChart transactions={filterTxns("", year3)} />

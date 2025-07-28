@@ -43,7 +43,7 @@ export default function HomePage() {
                 </div>
             </div>
 
-            <div className="bg-primary py-16 px-6">
+            <div className="bg-primary py-10 px-6">
                 <h2 className="text-2xl sm:text-3xl font-bold text-center mb-14">
                     Why Choose Xpenser?
                 </h2>

@@ -56,7 +56,7 @@ export default function CategoryComparisonChart({ budget, transactions }) {
     const options = {
         responsive: true,
         plugins: {
-            legend: { position: "top" },
+            legend: { position: "bottom" },
             title: {
                 display: true,
                 text: `Category-wise Budget vs Expenses - ${budget.month} ${budget.year}`,
@@ -85,17 +85,23 @@ export default function CategoryComparisonChart({ budget, transactions }) {
     });
 
     return (
-        <div className="max-w-4xl mx-auto mt-10 bg-white p-6 rounded-xl shadow-md">
-            <Bar data={data} options={options} />
-            <div className="mt-6 grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div className="max-w-8xl mx-auto mt-6 grid grid-cols-1 lg:grid-cols-2 gap-6">
+            {/* Bar Chart Card */}
+            <div className="bg-white p-6 rounded-xl shadow-md h-100">
+                <Bar data={data} options={{ ...options, maintainAspectRatio: false }} />
+            </div>
+
+
+            {/* Insights Card */}
+            <div className="bg-white p-6 rounded-xl shadow-md grid grid-cols-1 sm:grid-cols-2 gap-4">
                 {insights.map((insight, idx) => (
                     <div
                         key={idx}
                         className={`p-4 rounded-md shadow-sm border-l-4 ${insight.type === "over"
-                                ? "border-red-500 bg-red-50"
-                                : insight.type === "under"
-                                    ? "border-green-500 bg-green-50"
-                                    : "border-blue-500 bg-blue-50"
+                            ? "border-red-500 bg-red-50"
+                            : insight.type === "under"
+                                ? "border-green-500 bg-green-50"
+                                : "border-blue-500 bg-blue-50"
                             }`}
                     >
                         <p className="text-sm text-gray-800">{insight.msg}</p>
@@ -103,5 +109,6 @@ export default function CategoryComparisonChart({ budget, transactions }) {
                 ))}
             </div>
         </div>
+
     );
 }
