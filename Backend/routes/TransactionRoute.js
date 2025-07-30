@@ -6,11 +6,12 @@ const {
   ShowTransaction,
   UpdateTransactionData,
 } = require("../controllers/TransactionControllers");
+const { userVerification } = require("../middlewares/AuthMiddleWare");
 
-router.post("/addTransaction", AddTransaction);
-router.get("/allTransactions", ShowTransaction);
-router.get("/updatetransaction/:id", UpdateTransactionData);
-router.put("/updatetransaction/:id", UpdateTransaction);
-router.delete("/deleteTransaction/:id", DeleteTransaction);
+router.post("/addTransaction", userVerification, AddTransaction);
+router.get("/allTransactions", userVerification, ShowTransaction);
+router.get("/updatetransaction/:id", userVerification, UpdateTransactionData);
+router.put("/updatetransaction/:id", userVerification, UpdateTransaction);
+router.delete("/deleteTransaction/:id", userVerification, DeleteTransaction);
 
 module.exports = router;

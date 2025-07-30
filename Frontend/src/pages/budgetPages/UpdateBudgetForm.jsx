@@ -29,7 +29,9 @@ export default function UpdateBudgetForm() {
     useEffect(() => {
         const fetchBudget = async () => {
             try {
-                const res = await axios.get(`${BASE_URL}/updatebudget/${id}`);
+                const res = await axios.get(`${BASE_URL}/updatebudget/${id}`, {
+                    withCredentials: true,
+                });
                 const data = res.data;
 
                 setFormData({
@@ -80,6 +82,8 @@ export default function UpdateBudgetForm() {
                 month: formData.month,
                 year: formData.year,
                 categories: numericCategories,
+            }, {
+                withCredentials: true,
             });
 
             setMessage(res.data?.message);

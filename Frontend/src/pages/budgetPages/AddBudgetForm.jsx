@@ -59,7 +59,9 @@ export default function AddBudgetForm() {
         };
 
         try {
-            const res = await axios.post(`${BASE_URL}/setbudget`, payload);
+            const res = await axios.post(`${BASE_URL}/setbudget`, payload, {
+                withCredentials: true,
+            });
 
             if (res.status === httpStatus.CREATED) {
                 console.log(res.data?.message);

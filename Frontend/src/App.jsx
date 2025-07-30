@@ -1,5 +1,8 @@
 import { Routes, Route } from 'react-router-dom';
-import MainLayout from './layout/MainLayout'
+import MainLayout from './layout/MainLayout';
+import Authentication from './pages/commonPages/Authentication';
+import VerifyEmail from './pages/commonPages/VerifyEmail';
+import ForgotPass from './pages/commonPages/ForgotPass';
 import HomePage from './pages/commonPages/HomePage';
 import AllTransactions from './pages/transactionPages/AllTransactions';
 import AddTransactionForm from './pages/transactionPages/AddTransactionForm';
@@ -9,20 +12,84 @@ import AddBudgetForm from './pages/budgetPages/AddBudgetForm';
 import UpdateBudgetForm from './pages/budgetPages/UpdateBudgetForm';
 import AllBudgets from './pages/budgetPages/AllBudgets';
 import BudgetVsExpenseComparison from './pages/CommonPages/BudgetVsExpenseComparison';
+import UserProtectedRoute from './routes/UserProtectedRoutes';
+import NotFoundPage from "./pages/commonPages/NotFound";
 
 function App() {
     return (
         <Routes>
             <Route element={<MainLayout />}>
                 <Route path='/' element={<HomePage />} />
-                <Route path='/transactionanalytics' element={<TransactionAnalytics />} />
-                <Route path='/addtransaction' element={<AddTransactionForm />} />
-                <Route path='/alltransactions' element={<AllTransactions />} />
-                <Route path='/updatetransaction/:id' element={<UpdateTransactionForm />} />
-                <Route path='/setbudget' element={<AddBudgetForm />} />
-                <Route path='/allbudgets' element={<AllBudgets />} />
-                <Route path='/updatebudget/:id' element={<UpdateBudgetForm />} />
-                <Route path='/budgetvsexpensecomparison' element={<BudgetVsExpenseComparison />} />
+                <Route path="/login" element={<Authentication formType="login" />} />
+                <Route path="/signup" element={<Authentication formType="signup" />} />
+                <Route path="/verifyemail" element={<VerifyEmail />} />
+                <Route path="/forgotpass" element={<ForgotPass />} />
+
+                <Route
+                    path="/transactionanalytics"
+                    element={
+                        <UserProtectedRoute>
+                            <TransactionAnalytics />
+                        </UserProtectedRoute>
+                    }
+                />
+                <Route
+                    path="/budgetvsexpensecomparison"
+                    element={
+                        <UserProtectedRoute>
+                            <BudgetVsExpenseComparison />
+                        </UserProtectedRoute>
+                    }
+                />
+                <Route
+                    path="/updatebudget/:id"
+                    element={
+                        <UserProtectedRoute>
+                            <UpdateBudgetForm />
+                        </UserProtectedRoute>
+                    }
+                />
+                <Route
+                    path="/allbudgets"
+                    element={
+                        <UserProtectedRoute>
+                            <AllBudgets />
+                        </UserProtectedRoute>
+                    }
+                />
+                <Route
+                    path="/setbudget"
+                    element={
+                        <UserProtectedRoute>
+                            <AddBudgetForm />
+                        </UserProtectedRoute>
+                    }
+                />
+                <Route
+                    path="/updatetransaction/:id"
+                    element={
+                        <UserProtectedRoute>
+                            <UpdateTransactionForm />
+                        </UserProtectedRoute>
+                    }
+                />
+                <Route
+                    path="/alltransactions"
+                    element={
+                        <UserProtectedRoute>
+                            <AllTransactions />
+                        </UserProtectedRoute>
+                    }
+                />
+                <Route
+                    path="/addtransaction"
+                    element={
+                        <UserProtectedRoute>
+                            <AddTransactionForm />
+                        </UserProtectedRoute>
+                    }
+                />
+                <Route path="*" element={<NotFoundPage />} />
             </Route>
         </Routes>
     )

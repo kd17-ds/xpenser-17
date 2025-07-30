@@ -28,7 +28,9 @@ export default function AllBudgets() {
             if (monthFilter) query.append("month", monthFilter);
             if (yearFilter) query.append("year", yearFilter);
 
-            const res = await axios.get(`${BASE_URL}/showbudget?${query.toString()}`);
+            const res = await axios.get(`${BASE_URL}/showbudget?${query.toString()}`, {
+                withCredentials: true,
+            });
             setBudgets(res.data.reverse());
             setError("");
         } catch (err) {
@@ -39,7 +41,9 @@ export default function AllBudgets() {
 
     const fetchExpenses = async () => {
         try {
-            const res = await axios.get(`${BASE_URL}/allTransactions`);
+            const res = await axios.get(`${BASE_URL}/allTransactions`, {
+                withCredentials: true,
+            });
             const expensesOnly = res.data.filter(txn => txn.type === "expense");
 
             const monthly = {};
@@ -76,7 +80,9 @@ export default function AllBudgets() {
         const confirm = window.confirm("Are you sure you want to delete this Budget?");
         if (!confirm) return;
         try {
-            const res = await axios.delete(`${BASE_URL}/deletebudget/${id}`);
+            const res = await axios.delete(`${BASE_URL}/deletebudget/${id}`, {
+                withCredentials: true,
+            });
             setBudgets((prev) => prev.filter(bgt => bgt._id !== id));
             setMessage(res.data?.message);
             setError("");

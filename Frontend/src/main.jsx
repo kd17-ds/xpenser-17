@@ -3,11 +3,16 @@ import { BrowserRouter } from 'react-router-dom';
 import App from './App';
 import 'react-datepicker/dist/react-datepicker.css';
 import './index.css'
-
+import { LoadingProvider } from "./contexts/LoadingContext";
+import AuthProvider from './contexts/AuthContext';
 
 createRoot(document.getElementById('root')).render(
   <BrowserRouter>
-    <App />
+    <LoadingProvider>
+      <AuthProvider>
+        <App />
+      </AuthProvider>
+    </LoadingProvider>
   </BrowserRouter>,
 );
 

@@ -39,8 +39,12 @@ export default function BudgetVsExpenseComparison() {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const txnRes = await axios.get(`${BASE_URL}/allTransactions`);
-                const budgetRes = await axios.get(`${BASE_URL}/showbudget`);
+                const txnRes = await axios.get(`${BASE_URL}/allTransactions`, {
+                    withCredentials: true,
+                });
+                const budgetRes = await axios.get(`${BASE_URL}/showbudget`, {
+                    withCredentials: true,
+                });
                 setTransactions(txnRes.data.reverse());
                 setBudgets(budgetRes.data.reverse());
                 setError("");
@@ -110,66 +114,58 @@ export default function BudgetVsExpenseComparison() {
             </h2>
 
             {/* Section 1: Budget vs Expense + Line Chart */}
-            <div className="flex flex-col lg:flex-row gap-8 mb-16">
+            <div className="flex flex-col lg:flex-row gap-8 mb-16 text-center">
                 {/* Budget vs Expense (Bar) */}
                 <div className="lg:w-1/2 w-full">
-                    <div className="text-3xl text-secondary text-center mb-4">
+                    <div className="text-3xl text-secondary text-center mb-6">
                         Budget vs Expenses
                     </div>
 
                     {/* Filters Box */}
-                    <div className="bg-gradient-to-br from-purple-100 via-white to-purple-50 p-6 rounded-2xl border border-secondary/30 shadow-md space-y-4 mx-auto w-fit  mb-6">
-                        <div className="flex flex-wrap justify-center gap-6">
-                            {/* Month */}
-                            <div className="w-40">
-                                <label className="block text-sm font-medium text-gray-700 mb-2">Select Month</label>
-                                <div className="relative">
-                                    <select
-                                        value={barMonthFilter}
-                                        onChange={(e) => setBarMonthFilter(e.target.value)}
-                                        className="w-full appearance-none border border-purple-300 rounded-lg pl-4 pr-10 py-2 text-sm bg-white text-gray-800 shadow-sm focus:outline-none focus:ring-2 focus:ring-purple-400 focus:border-purple-500 transition cursor-pointer"
-                                    >
-                                        <option value="">All Months</option>
-                                        {months.map((m) => (
-                                            <option key={m} value={m}>{m}</option>
-                                        ))}
-                                    </select>
-                                    <div className="pointer-events-none absolute inset-y-0 right-3 flex items-center text-purple-500">
-                                        <svg className="w-4 h-4" viewBox="0 0 20 20" fill="currentColor">
-                                            <path
-                                                fillRule="evenodd"
-                                                d="M5.23 7.21a.75.75 0 011.06.02L10 11.293l3.71-4.06a.75.75 0 111.1 1.02l-4.25 4.65a.75.75 0 01-1.1 0l-4.25-4.65a.75.75 0 01.02-1.06z"
-                                                clipRule="evenodd"
-                                            />
-                                        </svg>
-                                    </div>
-                                </div>
+                    <div className="flex flex-wrap justify-center gap-4">
+                        {/* Month */}
+                        <div className="relative">
+                            <select
+                                value={barMonthFilter}
+                                onChange={(e) => setBarMonthFilter(e.target.value)}
+                                className="w-full appearance-none border border-purple-300 rounded-lg pl-4 pr-10 py-2 text-sm bg-white text-gray-800 shadow-sm focus:outline-none focus:ring-2 focus:ring-purple-400 focus:border-purple-500 transition cursor-pointer"
+                            >
+                                <option value="">All Months</option>
+                                {months.map((m) => (
+                                    <option key={m} value={m}>{m}</option>
+                                ))}
+                            </select>
+                            <div className="pointer-events-none absolute inset-y-0 right-3 flex items-center text-purple-500">
+                                <svg className="w-4 h-4" viewBox="0 0 20 20" fill="currentColor">
+                                    <path
+                                        fillRule="evenodd"
+                                        d="M5.23 7.21a.75.75 0 011.06.02L10 11.293l3.71-4.06a.75.75 0 111.1 1.02l-4.25 4.65a.75.75 0 01-1.1 0l-4.25-4.65a.75.75 0 01.02-1.06z"
+                                        clipRule="evenodd"
+                                    />
+                                </svg>
                             </div>
+                        </div>
 
-                            {/* Year */}
-                            <div className="w-40">
-                                <label className="block text-sm font-medium text-gray-700 mb-2">Select Year</label>
-                                <div className="relative">
-                                    <select
-                                        value={barYearFilter}
-                                        onChange={(e) => setBarYearFilter(e.target.value)}
-                                        className="w-full appearance-none border border-purple-300 rounded-lg pl-4 pr-10 py-2 text-sm bg-white text-gray-800 shadow-sm focus:outline-none focus:ring-2 focus:ring-purple-400 focus:border-purple-500 transition cursor-pointer"
-                                    >
-                                        <option value="">All Years</option>
-                                        {years.map((y) => (
-                                            <option key={y} value={y}>{y}</option>
-                                        ))}
-                                    </select>
-                                    <div className="pointer-events-none absolute inset-y-0 right-3 flex items-center text-purple-500">
-                                        <svg className="w-4 h-4" viewBox="0 0 20 20" fill="currentColor">
-                                            <path
-                                                fillRule="evenodd"
-                                                d="M5.23 7.21a.75.75 0 011.06.02L10 11.293l3.71-4.06a.75.75 0 111.1 1.02l-4.25 4.65a.75.75 0 01-1.1 0l-4.25-4.65a.75.75 0 01.02-1.06z"
-                                                clipRule="evenodd"
-                                            />
-                                        </svg>
-                                    </div>
-                                </div>
+                        {/* Year */}
+                        <div className="relative">
+                            <select
+                                value={barYearFilter}
+                                onChange={(e) => setBarYearFilter(e.target.value)}
+                                className="w-full appearance-none border border-purple-300 rounded-lg pl-4 pr-10 py-2 text-sm bg-white text-gray-800 shadow-sm focus:outline-none focus:ring-2 focus:ring-purple-400 focus:border-purple-500 transition cursor-pointer"
+                            >
+                                <option value="">All Years</option>
+                                {years.map((y) => (
+                                    <option key={y} value={y}>{y}</option>
+                                ))}
+                            </select>
+                            <div className="pointer-events-none absolute inset-y-0 right-3 flex items-center text-purple-500">
+                                <svg className="w-4 h-4" viewBox="0 0 20 20" fill="currentColor">
+                                    <path
+                                        fillRule="evenodd"
+                                        d="M5.23 7.21a.75.75 0 011.06.02L10 11.293l3.71-4.06a.75.75 0 111.1 1.02l-4.25 4.65a.75.75 0 01-1.1 0l-4.25-4.65a.75.75 0 01.02-1.06z"
+                                        clipRule="evenodd"
+                                    />
+                                </svg>
                             </div>
                         </div>
                     </div>
@@ -183,117 +179,100 @@ export default function BudgetVsExpenseComparison() {
 
                 {/* Line Chart Section */}
                 <div className="lg:w-1/2 w-full">
-                    <h3 className="text-2xl sm:text-3xl text-center text-txt mb-4">
+                    <h3 className="text-2xl sm:text-3xl text-center text-txt mb-6">
                         Category-wise Distribution
                     </h3>
 
                     {/* Filters Box */}
-                    <div className="bg-gradient-to-br from-purple-100 via-white to-purple-50 p-6.5 rounded-2xl border border-secondary/30 shadow-md space-y-4 mx-auto w-fit mb-6">
-                        <div className="flex flex-wrap justify-center gap-6">
-
-                            {/* From Month */}
-                            <div className="w-28">
-                                <label className="block text-xs font-medium text-gray-700 mb-2">From Month</label>
-                                <div className="relative">
-                                    <select
-                                        value={fromMonth}
-                                        onChange={(e) => setFromMonth(e.target.value)}
-                                        className="w-full appearance-none border border-purple-300 rounded-md pl-3 pr-8 py-2 text-sm bg-white text-gray-800 shadow-sm focus:outline-none focus:ring-1 focus:ring-purple-400 focus:border-purple-500"
-                                    >
-                                        {months.map((m) => (
-                                            <option key={m} value={m}>{m}</option>
-                                        ))}
-                                    </select>
-                                    <div className="pointer-events-none absolute inset-y-0 right-2 flex items-center text-purple-500">
-                                        <svg className="w-4 h-4" viewBox="0 0 20 20" fill="currentColor">
-                                            <path
-                                                fillRule="evenodd"
-                                                d="M5.23 7.21a.75.75 0 011.06.02L10 11.293l3.71-4.06a.75.75 0 111.1 1.02l-4.25 4.65a.75.75 0 01-1.1 0l-4.25-4.65a.75.75 0 01.02-1.06z"
-                                                clipRule="evenodd"
-                                            />
-                                        </svg>
-                                    </div>
-                                </div>
+                    <div className="flex flex-wrap justify-center gap-6">
+                        {/* From Month */}
+                        <div className="relative">
+                            <select
+                                value={fromMonth}
+                                onChange={(e) => setFromMonth(e.target.value)}
+                                className="w-full appearance-none border border-purple-300 rounded-md pl-3 pr-8 py-2 text-sm bg-white text-gray-800 shadow-sm focus:outline-none focus:ring-1 focus:ring-purple-400 focus:border-purple-500"
+                            >
+                                {months.map((m) => (
+                                    <option key={m} value={m}>{m}</option>
+                                ))}
+                            </select>
+                            <div className="pointer-events-none absolute inset-y-0 right-2 flex items-center text-purple-500">
+                                <svg className="w-4 h-4" viewBox="0 0 20 20" fill="currentColor">
+                                    <path
+                                        fillRule="evenodd"
+                                        d="M5.23 7.21a.75.75 0 011.06.02L10 11.293l3.71-4.06a.75.75 0 111.1 1.02l-4.25 4.65a.75.75 0 01-1.1 0l-4.25-4.65a.75.75 0 01.02-1.06z"
+                                        clipRule="evenodd"
+                                    />
+                                </svg>
                             </div>
+                        </div>
 
-                            {/* From Year */}
-                            <div className="w-28">
-                                <label className="block text-xs font-medium text-gray-700 mb-2">From Year</label>
-                                <div className="relative">
-                                    <select
-                                        value={fromYear}
-                                        onChange={(e) => setFromYear(e.target.value)}
-                                        className="w-full appearance-none border border-purple-300 rounded-md pl-3 pr-8 py-2 text-sm bg-white text-gray-800 shadow-sm focus:outline-none focus:ring-1 focus:ring-purple-400 focus:border-purple-500"
-                                    >
-                                        {years.map((y) => (
-                                            <option key={y} value={y}>{y}</option>
-                                        ))}
-                                    </select>
-                                    <div className="pointer-events-none absolute inset-y-0 right-2 flex items-center text-purple-500">
-                                        <svg className="w-4 h-4" viewBox="0 0 20 20" fill="currentColor">
-                                            <path
-                                                fillRule="evenodd"
-                                                d="M5.23 7.21a.75.75 0 011.06.02L10 11.293l3.71-4.06a.75.75 0 111.1 1.02l-4.25 4.65a.75.75 0 01-1.1 0l-4.25-4.65a.75.75 0 01.02-1.06z"
-                                                clipRule="evenodd"
-                                            />
-                                        </svg>
-                                    </div>
-                                </div>
+                        {/* From Year */}
+                        <div className="relative">
+                            <select
+                                value={fromYear}
+                                onChange={(e) => setFromYear(e.target.value)}
+                                className="w-full appearance-none border border-purple-300 rounded-md pl-3 pr-8 py-2 text-sm bg-white text-gray-800 shadow-sm focus:outline-none focus:ring-1 focus:ring-purple-400 focus:border-purple-500"
+                            >
+                                {years.map((y) => (
+                                    <option key={y} value={y}>{y}</option>
+                                ))}
+                            </select>
+                            <div className="pointer-events-none absolute inset-y-0 right-2 flex items-center text-purple-500">
+                                <svg className="w-4 h-4" viewBox="0 0 20 20" fill="currentColor">
+                                    <path
+                                        fillRule="evenodd"
+                                        d="M5.23 7.21a.75.75 0 011.06.02L10 11.293l3.71-4.06a.75.75 0 111.1 1.02l-4.25 4.65a.75.75 0 01-1.1 0l-4.25-4.65a.75.75 0 01.02-1.06z"
+                                        clipRule="evenodd"
+                                    />
+                                </svg>
                             </div>
+                        </div>
 
-                            {/* To Month */}
-                            <div className="w-28">
-                                <label className="block text-xs font-medium text-gray-700 mb-2">To Month</label>
-                                <div className="relative">
-                                    <select
-                                        value={toMonth}
-                                        onChange={(e) => setToMonth(e.target.value)}
-                                        className="w-full appearance-none border border-purple-300 rounded-md pl-3 pr-8 py-2 text-sm bg-white text-gray-800 shadow-sm focus:outline-none focus:ring-1 focus:ring-purple-400 focus:border-purple-500"
-                                    >
-                                        {months.map((m) => (
-                                            <option key={m} value={m}>{m}</option>
-                                        ))}
-                                    </select>
-                                    <div className="pointer-events-none absolute inset-y-0 right-2 flex items-center text-purple-500">
-                                        <svg className="w-4 h-4" viewBox="0 0 20 20" fill="currentColor">
-                                            <path
-                                                fillRule="evenodd"
-                                                d="M5.23 7.21a.75.75 0 011.06.02L10 11.293l3.71-4.06a.75.75 0 111.1 1.02l-4.25 4.65a.75.75 0 01-1.1 0l-4.25-4.65a.75.75 0 01.02-1.06z"
-                                                clipRule="evenodd"
-                                            />
-                                        </svg>
-                                    </div>
-                                </div>
+                        {/* To Month */}
+                        <div className="relative">
+                            <select
+                                value={toMonth}
+                                onChange={(e) => setToMonth(e.target.value)}
+                                className="w-full appearance-none border border-purple-300 rounded-md pl-3 pr-8 py-2 text-sm bg-white text-gray-800 shadow-sm focus:outline-none focus:ring-1 focus:ring-purple-400 focus:border-purple-500"
+                            >
+                                {months.map((m) => (
+                                    <option key={m} value={m}>{m}</option>
+                                ))}
+                            </select>
+                            <div className="pointer-events-none absolute inset-y-0 right-2 flex items-center text-purple-500">
+                                <svg className="w-4 h-4" viewBox="0 0 20 20" fill="currentColor">
+                                    <path
+                                        fillRule="evenodd"
+                                        d="M5.23 7.21a.75.75 0 011.06.02L10 11.293l3.71-4.06a.75.75 0 111.1 1.02l-4.25 4.65a.75.75 0 01-1.1 0l-4.25-4.65a.75.75 0 01.02-1.06z"
+                                        clipRule="evenodd"
+                                    />
+                                </svg>
                             </div>
+                        </div>
 
-                            {/* To Year */}
-                            <div className="w-28">
-                                <label className="block text-xs font-medium text-gray-700 mb-2">To Year</label>
-                                <div className="relative">
-                                    <select
-                                        value={toYear}
-                                        onChange={(e) => setToYear(e.target.value)}
-                                        className="w-full appearance-none border border-purple-300 rounded-md pl-3 pr-8 py-2 text-sm bg-white text-gray-800 shadow-sm focus:outline-none focus:ring-1 focus:ring-purple-400 focus:border-purple-500"
-                                    >
-                                        {years.map((y) => (
-                                            <option key={y} value={y}>{y}</option>
-                                        ))}
-                                    </select>
-                                    <div className="pointer-events-none absolute inset-y-0 right-2 flex items-center text-purple-500">
-                                        <svg className="w-4 h-4" viewBox="0 0 20 20" fill="currentColor">
-                                            <path
-                                                fillRule="evenodd"
-                                                d="M5.23 7.21a.75.75 0 011.06.02L10 11.293l3.71-4.06a.75.75 0 111.1 1.02l-4.25 4.65a.75.75 0 01-1.1 0l-4.25-4.65a.75.75 0 01.02-1.06z"
-                                                clipRule="evenodd"
-                                            />
-                                        </svg>
-                                    </div>
-                                </div>
+                        {/* To Year */}
+                        <div className="relative">
+                            <select
+                                value={toYear}
+                                onChange={(e) => setToYear(e.target.value)}
+                                className="w-full appearance-none border border-purple-300 rounded-md pl-3 pr-8 py-2 text-sm bg-white text-gray-800 shadow-sm focus:outline-none focus:ring-1 focus:ring-purple-400 focus:border-purple-500"
+                            >
+                                {years.map((y) => (
+                                    <option key={y} value={y}>{y}</option>
+                                ))}
+                            </select>
+                            <div className="pointer-events-none absolute inset-y-0 right-2 flex items-center text-purple-500">
+                                <svg className="w-4 h-4" viewBox="0 0 20 20" fill="currentColor">
+                                    <path
+                                        fillRule="evenodd"
+                                        d="M5.23 7.21a.75.75 0 011.06.02L10 11.293l3.71-4.06a.75.75 0 111.1 1.02l-4.25 4.65a.75.75 0 01-1.1 0l-4.25-4.65a.75.75 0 01.02-1.06z"
+                                        clipRule="evenodd"
+                                    />
+                                </svg>
                             </div>
-
                         </div>
                     </div>
-
 
                     {/* Chart */}
                     <BudgetTrendLineChart
@@ -315,73 +294,64 @@ export default function BudgetVsExpenseComparison() {
                         Category-wise Budget vs Expense
                     </h3>
 
-                    <div className="bg-gradient-to-br from-purple-100 via-white to-purple-50 p-6 rounded-2xl border border-secondary/30 shadow-md space-y-6 mx-auto lg:mx-0 w-fit ">
-                        {/* Filters Section */}
-                        <div className="flex flex-wrap justify-center gap-6">
-                            {/* Comparison Type */}
-                            <div className="w-40">
-                                <label className="block text-sm font-medium text-gray-700 mb-2">Type</label>
-                                <div className="relative">
-                                    <select
-                                        value={comparisonType}
-                                        onChange={(e) => setComparisonType(e.target.value)}
-                                        className="w-full appearance-none border border-purple-300 rounded-lg pl-4 pr-10 py-2 text-sm bg-white text-gray-800 shadow-sm focus:outline-none focus:ring-2 focus:ring-purple-400 focus:border-purple-500 transition cursor-pointer"
-                                    >
-                                        <option value="Monthly">Monthly</option>
-                                        <option value="Yearly">Yearly</option>
-                                    </select>
-                                    <div className="pointer-events-none absolute inset-y-0 right-3 flex items-center text-purple-500">
-                                        <svg className="w-4 h-4" viewBox="0 0 20 20" fill="currentColor">
-                                            <path
-                                                fillRule="evenodd"
-                                                d="M5.23 7.21a.75.75 0 011.06.02L10 11.293l3.71-4.06a.75.75 0 111.1 1.02l-4.25 4.65a.75.75 0 01-1.1 0l-4.25-4.65a.75.75 0 01.02-1.06z"
-                                                clipRule="evenodd"
-                                            />
-                                        </svg>
-                                    </div>
+                    {/* Filters Section */}
+                    <div className="flex flex-wrap justify-center gap-6">
+                        {/* Comparison Type */}
+                        <div className="relative">
+                            <select
+                                value={comparisonType}
+                                onChange={(e) => setComparisonType(e.target.value)}
+                                className="w-full appearance-none border border-purple-300 rounded-lg pl-4 pr-10 py-2 text-sm bg-white text-gray-800 shadow-sm focus:outline-none focus:ring-2 focus:ring-purple-400 focus:border-purple-500 transition cursor-pointer"
+                            >
+                                <option value="Monthly">Monthly</option>
+                                <option value="Yearly">Yearly</option>
+                            </select>
+                            <div className="pointer-events-none absolute inset-y-0 right-3 flex items-center text-purple-500">
+                                <svg className="w-4 h-4" viewBox="0 0 20 20" fill="currentColor">
+                                    <path
+                                        fillRule="evenodd"
+                                        d="M5.23 7.21a.75.75 0 011.06.02L10 11.293l3.71-4.06a.75.75 0 111.1 1.02l-4.25 4.65a.75.75 0 01-1.1 0l-4.25-4.65a.75.75 0 01.02-1.06z"
+                                        clipRule="evenodd"
+                                    />
+                                </svg>
+                            </div>
+                        </div>
+
+                        {/* Month Dropdown (Only for Monthly) */}
+                        {comparisonType === "Monthly" && (
+                            <div className="relative">
+                                <select
+                                    value={categoryMonthFilter}
+                                    onChange={(e) => setCategoryMonthFilter(e.target.value)}
+                                    className="w-full appearance-none border border-purple-300 rounded-lg pl-4 pr-10 py-2 text-sm bg-white text-gray-800 shadow-sm focus:outline-none focus:ring-2 focus:ring-purple-400 focus:border-purple-500 transition cursor-pointer"
+                                >
+                                    {months.map((m) => (
+                                        <option key={m} value={m}>
+                                            {m}
+                                        </option>
+                                    ))}
+                                </select>
+                                <div className="pointer-events-none absolute inset-y-0 right-3 flex items-center text-purple-500">
+                                    <svg className="w-4 h-4" viewBox="0 0 20 20" fill="currentColor">
+                                        <path
+                                            fillRule="evenodd"
+                                            d="M5.23 7.21a.75.75 0 011.06.02L10 11.293l3.71-4.06a.75.75 0 111.1 1.02l-4.25 4.65a.75.75 0 01-1.1 0l-4.25-4.65a.75.75 0 01.02-1.06z"
+                                            clipRule="evenodd"
+                                        />
+                                    </svg>
                                 </div>
                             </div>
+                        )}
 
-                            {/* Month Dropdown (Only for Monthly) */}
-                            {comparisonType === "Monthly" && (
-                                <div className="w-40">
-                                    <label className="block text-sm font-medium text-gray-700 mb-2">Month</label>
-                                    <div className="relative">
-                                        <select
-                                            value={categoryMonthFilter}
-                                            onChange={(e) => setCategoryMonthFilter(e.target.value)}
-                                            className="w-full appearance-none border border-purple-300 rounded-lg pl-4 pr-10 py-2 text-sm bg-white text-gray-800 shadow-sm focus:outline-none focus:ring-2 focus:ring-purple-400 focus:border-purple-500 transition cursor-pointer"
-                                        >
-                                            {months.map((m) => (
-                                                <option key={m} value={m}>
-                                                    {m}
-                                                </option>
-                                            ))}
-                                        </select>
-                                        <div className="pointer-events-none absolute inset-y-0 right-3 flex items-center text-purple-500">
-                                            <svg className="w-4 h-4" viewBox="0 0 20 20" fill="currentColor">
-                                                <path
-                                                    fillRule="evenodd"
-                                                    d="M5.23 7.21a.75.75 0 011.06.02L10 11.293l3.71-4.06a.75.75 0 111.1 1.02l-4.25 4.65a.75.75 0 01-1.1 0l-4.25-4.65a.75.75 0 01.02-1.06z"
-                                                    clipRule="evenodd"
-                                                />
-                                            </svg>
-                                        </div>
-                                    </div>
-                                </div>
-                            )}
-
-                            {/* Year Input */}
-                            <div className="w-32">
-                                <label className="block text-sm font-medium text-gray-700 mb-2">Year</label>
-                                <input
-                                    type="number"
-                                    value={categoryYearFilter}
-                                    onChange={(e) => setCategoryYearFilter(e.target.value)}
-                                    className="w-full px-4 py-2 border border-purple-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-purple-400 focus:border-purple-500 transition"
-                                    placeholder="Year"
-                                />
-                            </div>
+                        {/* Year Input */}
+                        <div className="relative">
+                            <input
+                                type="number"
+                                value={categoryYearFilter}
+                                onChange={(e) => setCategoryYearFilter(e.target.value)}
+                                className="w-[120px] appearance-none border border-purple-300 rounded-lg pl-4 pr-10 py-2 text-sm bg-white text-gray-800 shadow-sm focus:outline-none focus:ring-2 focus:ring-purple-400 focus:border-purple-500 transition"
+                                placeholder="Year"
+                            />
                         </div>
                     </div>
                 </div>

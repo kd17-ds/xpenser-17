@@ -23,7 +23,9 @@ export default function UpdateTransactionForm() {
     useEffect(() => {
         const fetchTransaction = async () => {
             try {
-                const res = await axios.get(`${BASE_URL}/updatetransaction/${id}`);
+                const res = await axios.get(`${BASE_URL}/updatetransaction/${id}`, {
+                    withCredentials: true,
+                });
                 const data = res.data;
                 setFormData({
                     amount: data.amount,
@@ -48,7 +50,9 @@ export default function UpdateTransactionForm() {
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            await axios.put(`${BASE_URL}/updatetransaction/${id}`, formData);
+            await axios.put(`${BASE_URL}/updatetransaction/${id}`, formData, {
+                withCredentials: true,
+            });
             setMessage("Transaction updated successfully!");
             navigate("/alltransactions");
         } catch (err) {

@@ -6,11 +6,12 @@ const {
   UpdateBudget,
   DeleteBudget,
 } = require("../controllers/BudgetController");
+const { userVerification } = require("../middlewares/AuthMiddleWare");
 
-router.post("/setbudget", SetBudget);
-router.get("/showbudget", ShowBudget);
-router.get("/updatebudget/:id", UpdateBudget);
-router.put("/updatebudget/:id", UpdateBudgetData);
-router.delete("/deletebudget/:id", DeleteBudget);
+router.post("/setbudget", userVerification, SetBudget);
+router.get("/showbudget", userVerification, ShowBudget);
+router.get("/updatebudget/:id", userVerification, UpdateBudget);
+router.put("/updatebudget/:id", userVerification, UpdateBudgetData);
+router.delete("/deletebudget/:id", userVerification, DeleteBudget);
 
 module.exports = router;

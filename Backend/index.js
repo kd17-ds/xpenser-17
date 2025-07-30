@@ -12,6 +12,8 @@ const bodyParser = require("body-parser");
 const cors = require("cors");
 const transactionRoute = require("./routes/TransactionRoute");
 const budgetRoutes = require("./routes/BudgetRoutes");
+const authRoute = require("./routes/AuthRoutes");
+const cookieParser = require("cookie-parser");
 
 app.use(express.static(path.join(__dirname, "client", "dist")));
 app.set("trust proxy", 1);
@@ -26,6 +28,8 @@ app.use(
 
 app.use(bodyParser.json());
 app.use(express.urlencoded({ extended: true }));
+app.use(cookieParser());
+app.use("/", authRoute);
 app.use("/", transactionRoute);
 app.use("/", budgetRoutes);
 

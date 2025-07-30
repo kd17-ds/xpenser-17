@@ -51,7 +51,9 @@ export default function AllTransactions() {
     useEffect(() => {
         const fetchTransactions = async () => {
             try {
-                const res = await axios.get(`${BASE_URL}/allTransactions`);
+                const res = await axios.get(`${BASE_URL}/allTransactions`, {
+                    withCredentials: true,
+                });
                 const reversed = res.data.reverse();
                 setTransactions(reversed);
                 applyFilters(reversed);
@@ -99,7 +101,9 @@ export default function AllTransactions() {
         if (!window.confirm("Are you sure you want to delete this transaction?"))
             return;
         try {
-            await axios.delete(`${BASE_URL}/deleteTransaction/${id}`);
+            await axios.delete(`${BASE_URL}/deleteTransaction/${id}`, {
+                withCredentials: true,
+            });
             const updated = transactions.filter((txn) => txn._id !== id);
             setTransactions(updated);
             applyFilters(updated);

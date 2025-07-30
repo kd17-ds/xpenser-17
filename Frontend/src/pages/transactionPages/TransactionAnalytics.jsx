@@ -26,7 +26,9 @@ export default function TransactionAnalytics() {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const res = await axios.get(`${BASE_URL}/allTransactions`);
+                const res = await axios.get(`${BASE_URL}/allTransactions`, {
+                    withCredentials: true,
+                });
                 setTransactions(res.data.reverse());
             } catch (err) {
                 console.error("Error fetching transactions:", err);

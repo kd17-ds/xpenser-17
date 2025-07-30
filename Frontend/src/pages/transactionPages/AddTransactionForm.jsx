@@ -40,7 +40,9 @@ export default function AddTransactionForm() {
         e.preventDefault();
 
         try {
-            const res = await axios.post(`${BASE_URL}/addTransaction`, formData);
+            const res = await axios.post(`${BASE_URL}/addTransaction`, formData, {
+                withCredentials: true,
+            });
 
             if (res.status === httpStatus.CREATED) {
                 setMessage("Transaction added successfully!");

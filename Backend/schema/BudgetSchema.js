@@ -14,6 +14,11 @@ const BudgetSchema = new Schema({
     of: Number,
     required: true,
   },
+  userId: {
+    type: Schema.Types.ObjectId,
+    ref: "User",
+    required: true,
+  },
 });
 
 module.exports = { BudgetSchema };
