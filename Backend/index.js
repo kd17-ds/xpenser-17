@@ -29,16 +29,14 @@ app.use(
 app.use(bodyParser.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
-app.use("/", authRoute);
-app.use("/", transactionRoute);
-app.use("/", budgetRoutes);
+app.use("/api", authRoute);
+app.use("/api", transactionRoute);
+app.use("/api", budgetRoutes);
 
-app.get(
-  /^\/(?!setbudget|login|signup|showbudget|addTransaction|allTransactions|verifyemail|forgotpass|resetpass|verifyUser|logout|updatebudget|deletebudget|updatetransaction|deleteTransaction).*/,
-  (req, res) => {
-    res.sendFile(path.join(__dirname, "client", "dist", "index.html"));
-  }
-);
+// Serve index.html only for routes NOT starting with /api
+app.get(/^\/(?!api).*/, (req, res) => {
+  res.sendFile(path.join(__dirname, "client", "dist", "index.html"));
+});
 
 main()
   .then((res) => {
