@@ -33,9 +33,12 @@ app.use("/", authRoute);
 app.use("/", transactionRoute);
 app.use("/", budgetRoutes);
 
-app.get("*", (req, res) => {
-  res.sendFile(path.join(__dirname, "client", "dist", "index.html"));
-});
+app.get(
+  /^\/(?!setbudget|login|signup|showbudget|addTransaction|allTransactions|verifyemail|forgotpass|resetpass|verifyUser|logout|updatebudget|deletebudget|updatetransaction|deleteTransaction).*/,
+  (req, res) => {
+    res.sendFile(path.join(__dirname, "client", "dist", "index.html"));
+  }
+);
 
 main()
   .then((res) => {
