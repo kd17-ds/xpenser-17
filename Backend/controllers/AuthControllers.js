@@ -28,7 +28,7 @@ module.exports.Signup = async (req, res, next) => {
     });
 
     const verificationToken = emailVerificationToken(user._id);
-    const verificationUrl = `http://localhost:5173/verifyemail?token=${verificationToken}`;
+    const verificationUrl = `${process.env.CLIENT_URL}/verifyemail?token=${verificationToken}`;
 
     await sendEmail(
       user.email,
@@ -128,7 +128,7 @@ module.exports.ForgotPass = async (req, res) => {
     }
 
     const token = createResetToken(user._id);
-    const resetPassUrl = `http://localhost:5173/forgotpass?token=${token}`;
+    const resetPassUrl = `${process.env.CLIENT_URL}/forgotpass?token=${token}`;
 
     await sendEmail(
       user.email,
