@@ -166,7 +166,7 @@ export default function Authentication({ formType }) {
                             <div className="w-full text-left">
                                 <button
                                     type="button"
-                                    className="text-blue-600 text-sm hover:underline"
+                                    className="text-blue-600 text-sm hover:underline hover:cursor-pointer"
                                     onClick={passChange}
                                 >
                                     Forgot Password?

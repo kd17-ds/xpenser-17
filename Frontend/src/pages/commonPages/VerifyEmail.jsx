@@ -48,8 +48,8 @@ export default function VerifyEmail() {
             {message && (
                 <div
                     className={`mb-6 px-4 py-2 rounded text-center text-lg ${type === "success"
-                            ? "bg-green-100 text-green-700"
-                            : "bg-red-100 text-red-700"
+                        ? "bg-green-100 text-green-700"
+                        : "bg-red-100 text-red-700"
                         }`}
                 >
                     {message}
@@ -58,7 +58,7 @@ export default function VerifyEmail() {
 
             {verified && (
                 <Link to="/login">
-                    <button className="bg-amber-500 hover:bg-amber-600 text-white font-semibold py-2 px-4 rounded transition">
+                    <button className="bg-secondary hover:bg-secondary text-white font-semibold py-2 px-4 rounded transition">
                         Go to Login
                     </button>
                 </Link>

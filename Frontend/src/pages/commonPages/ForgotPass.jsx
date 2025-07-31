@@ -62,8 +62,8 @@ export default function ForgotPass() {
                 {message && (
                     <div
                         className={`mb-4 px-4 py-2 rounded text-sm ${type === "success"
-                                ? "bg-green-100 text-green-700"
-                                : "bg-red-100 text-red-700"
+                            ? "bg-green-100 text-green-700"
+                            : "bg-red-100 text-red-700"
                             }`}
                     >
                         {message}
@@ -89,10 +89,11 @@ export default function ForgotPass() {
 
                     <button
                         onClick={handleSubmit}
-                        className="w-full bg-sec text-white py-2 rounded hover:bg-lite transition"
+                        className="w-full bg-secondary text-primary py-2 rounded-md hover:opacity-90 transition duration-200"
                     >
                         Reset Password
                     </button>
+
                 </div>
             </div>
         </div>
