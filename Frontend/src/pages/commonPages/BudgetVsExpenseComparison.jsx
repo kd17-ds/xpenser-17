@@ -180,7 +180,7 @@ export default function BudgetVsExpenseComparison() {
                 {/* Line Chart Section */}
                 <div className="lg:w-1/2 w-full">
                     <h3 className="text-2xl sm:text-3xl text-center text-txt mb-6">
-                        Category-wise Distribution
+                        Track Budget Trends Over Time
                     </h3>
 
                     {/* Filters Box */}
