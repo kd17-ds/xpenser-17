@@ -81,6 +81,7 @@ module.exports.Login = async (req, res, next) => {
       withCredentials: true,
       httpOnly: true,
       sameSite: "Lax",
+      maxAge: 3 * 24 * 60 * 60 * 1000, // ✅ 3 days in milliseconds
     });
     res.status(200).json({
       message: "User logged in successfully",
