@@ -1,4 +1,3 @@
-// Load environment variables from .env (only in dev mode)
 if (process.env.NODE_ENV != "production") {
   require("dotenv").config();
 }
@@ -16,7 +15,7 @@ const authRoute = require("./routes/AuthRoutes");
 const cookieParser = require("cookie-parser");
 
 app.use(express.static(path.join(__dirname, "client", "dist")));
-app.set("trust proxy", 1);
+app.set("trust proxy", 1); // Tell Express to trust the first proxy (needed for correct IP & HTTPS detection when behind a proxy)
 
 app.use(
   cors({
@@ -33,7 +32,7 @@ app.use("/api", authRoute);
 app.use("/api", transactionRoute);
 app.use("/api", budgetRoutes);
 
-// Serve index.html only for routes NOT starting with /api
+// Serve index.html only for routes NOT starting with /api , basically for all frontend routes
 app.get(/^\/(?!api).*/, (req, res) => {
   res.sendFile(path.join(__dirname, "client", "dist", "index.html"));
 });

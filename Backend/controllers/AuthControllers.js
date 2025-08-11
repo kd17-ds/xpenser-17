@@ -1,20 +1,19 @@
-// Import required modules and utilities
 const UsersModel = require("../models/UsersModel.js");
 const {
-  createSecretToken, // Generates JWT for login sessions
-  emailVerificationToken, // Generates JWT for email verification
-  createResetToken, // Generates JWT for password reset
+  createSecretToken,
+  emailVerificationToken,
+  createResetToken,
 } = require("../utils/secretToken.js");
 const bcrypt = require("bcrypt");
 const { sendEmail } = require("../utils/sendEmail.js");
 const jwt = require("jsonwebtoken");
+const CLIENT_URL = process.env.CLIENT_URL || "http://localhost:5173";
 
-// -------------------- SIGNUP --------------------
+// Sign Up
 module.exports.Signup = async (req, res, next) => {
   try {
-    const { email, password, username, createdAt } = req.body;
+    const { name, email, password, username } = req.body;
 
-    // Check if a user with the same email already exists
     const existingUser = await UsersModel.findOne({ email });
     if (existingUser) {
       return res.json({
@@ -23,40 +22,44 @@ module.exports.Signup = async (req, res, next) => {
       });
     }
 
-    // Create new user (password hashing should ideally happen in a Mongoose pre-save hook)
     const user = await UsersModel.create({
+      name,
       email,
       password,
       username,
-      createdAt,
     });
 
     // Generate verification token and prepare verification URL
     const verificationToken = emailVerificationToken(user._id);
-    const verificationUrl = `${process.env.CLIENT_URL}/verifyemail?token=${verificationToken}`;
+    const verificationUrl = `${CLIENT_URL}/verifyemail?token=${verificationToken}`;
 
     // Send verification email
     await sendEmail(
       user.email,
       "Verify your Xpenser account",
-      `<a href="${verificationUrl}">Click here to verify your account</a>`
+      ` <p>Thank you for registering with Xpenser. To complete your account setup and start managing your finances, please verify your email address by clicking the link below:</p>
+        <p><a href="${verificationUrl}" style="color: #1a73e8; text-decoration: none;">Verify My Account</a></p>
+        <p>If you did not create an account with us, please ignore this email.</p>
+        <p>Best regards,<br/>The Xpenser Team</p>`
     );
 
-    // Send success response
     res.status(201).json({
       message: "User signed up successfully, Verification Email Sent",
       success: true,
       user,
     });
-
-    // Not really needed since response is already sent
-    next();
   } catch (error) {
-    // Handle duplicate email error specifically
     if (error.code === 11000 && error.keyPattern.email) {
-      return res.status(409).json({ message: "Email already exists" });
+      return res
+        .status(409)
+        .json({ message: "User with this email already exists" });
     }
-    console.error("Signup error:", error);
+    if (error.name === "ValidationError") {
+      return res.status(400).json({
+        message: "All Fields are required",
+      });
+    }
+
     return res.status(500).json({ message: "Signup failed", error });
   }
 };
