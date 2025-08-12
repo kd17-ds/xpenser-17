@@ -4,7 +4,7 @@ const jwt = require("jsonwebtoken");
 // Token for authentication
 module.exports.createSecretToken = (id) => {
   return jwt.sign({ id }, process.env.TOKEN_KEY, {
-    expiresIn: 7 * 24 * 60 * 60,
+    expiresIn: 30 * 24 * 60 * 60,
   });
 };
 

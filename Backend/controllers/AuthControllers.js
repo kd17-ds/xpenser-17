@@ -10,7 +10,7 @@ const jwt = require("jsonwebtoken");
 const CLIENT_URL = process.env.CLIENT_URL || "http://localhost:5173";
 
 // Sign Up
-module.exports.Signup = async (req, res, next) => {
+module.exports.Signup = async (req, res) => {
   try {
     const { name, email, password, username } = req.body;
 
@@ -64,47 +64,40 @@ module.exports.Signup = async (req, res, next) => {
   }
 };
 
-// -------------------- LOGIN --------------------
+// LOGIN
 module.exports.Login = async (req, res) => {
   try {
     const { email, password } = req.body;
 
-    // Basic field validation
     if (!email || !password) {
       return res.json({ message: "All fields are required" });
     }
 
-    // Find user by email
     const user = await UsersModel.findOne({ email });
     if (!user) {
       return res.json({ message: "Incorrect password or email" });
     }
 
-    // Check if email is verified
     if (!user.verified) {
       return res.json({
         message: "Please verify your email before logging in.",
       });
     }
 
-    // Compare passwords
     const auth = await bcrypt.compare(password, user.password);
     if (!auth) {
       return res.json({ message: "Incorrect password or email" });
     }
 
-    // Create JWT token
     const token = createSecretToken(user._id);
 
-    // Send token as an HTTP-only cookie
     res.cookie("token", token, {
       withCredentials: true,
       httpOnly: true,
-      sameSite: "Lax", // Cross-site requests allowed for same site
-      maxAge: 3 * 24 * 60 * 60 * 1000, // 3 days
+      sameSite: "Lax",
+      maxAge: 30 * 24 * 60 * 60 * 1000,
     });
 
-    // Send login success response
     res.status(200).json({
       message: "User logged in successfully",
       success: true,
