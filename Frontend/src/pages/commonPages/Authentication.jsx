@@ -32,7 +32,6 @@ export default function Authentication({ formType }) {
         }
     }, [location]);
 
-
     const handleToggle = (state) => {
         setFormState(state);
         navigate(state === 0 ? "/login" : "/signup");

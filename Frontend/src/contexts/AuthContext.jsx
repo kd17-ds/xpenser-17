@@ -43,7 +43,7 @@ const AuthProvider = ({ children }) => {
                 email,
             });
 
-            if (res.status === httpStatus.CREATED) {
+            if (res.data.success && res.status === httpStatus.CREATED) {
                 return res.data;
             } else {
                 return {
@@ -64,7 +64,7 @@ const AuthProvider = ({ children }) => {
         try {
             const res = await client.post("/login", { email, password });
 
-            if (res.status === httpStatus.OK && res.data.user) {
+            if (res.data.success && res.status === httpStatus.OK && res.data.user) {
                 setUser(res.data.user);
 
                 return {

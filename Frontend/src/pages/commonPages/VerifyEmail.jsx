@@ -15,7 +15,7 @@ export default function VerifyEmail() {
         const token = new URLSearchParams(window.location.search).get("token");
 
         if (!token) {
-            setMessage("Token missing or invalid.");
+            setMessage("Verification token is missing.");
             setType("error");
             return;
         }
@@ -24,16 +24,15 @@ export default function VerifyEmail() {
             try {
                 showLoader();
                 const res = await axios.get(`${BASE_URL}/verifyemail?token=${token}`);
-                if (res.data.status) {
+
+                setMessage(res.data.message || "Unexpected response.");
+                setType(res.data.success ? "success" : "error");
+
+                if (res.data.success) {
                     setVerified(true);
-                    setMessage("Your email has been verified!");
-                    setType("success");
-                } else {
-                    setMessage("Verification failed or token expired.");
-                    setType("error");
                 }
             } catch (err) {
-                setMessage("Server error. Please try again later.");
+                setMessage(err.response?.data?.message || "Server error. Please try again later.");
                 setType("error");
             } finally {
                 hideLoader();

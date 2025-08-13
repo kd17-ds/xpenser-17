@@ -6,6 +6,7 @@ const {
 } = require("../utils/secretToken.js");
 const bcrypt = require("bcrypt");
 const { sendEmail } = require("../utils/sendEmail.js");
+const sendResponse = require("../utils/sendResponse");
 const jwt = require("jsonwebtoken");
 const CLIENT_URL = process.env.CLIENT_URL || "http://localhost:5173";
 
@@ -16,10 +17,12 @@ module.exports.Signup = async (req, res) => {
 
     const existingUser = await UsersModel.findOne({ email });
     if (existingUser) {
-      return res.json({
-        success: false,
-        message: "User with this email already exists",
-      });
+      return sendResponse(
+        res,
+        409,
+        false,
+        "User with this email already exists"
+      );
     }
 
     const user = await UsersModel.create({
@@ -43,84 +46,94 @@ module.exports.Signup = async (req, res) => {
         <p>Best regards,<br/>The Xpenser Team</p>`
     );
 
-    res.status(201).json({
-      message: "User signed up successfully, Verification Email Sent",
-      success: true,
-      user,
-    });
+    return sendResponse(
+      res,
+      201,
+      true,
+      "User signed up successfully, Verification Email Sent",
+      { user }
+    );
   } catch (error) {
     if (error.code === 11000 && error.keyPattern.email) {
-      return res
-        .status(409)
-        .json({ message: "User with this email already exists" });
-    }
-    if (error.name === "ValidationError") {
-      return res.status(400).json({
-        message: "All Fields are required",
-      });
+      return sendResponse(
+        res,
+        409,
+        false,
+        "User with this email already exists"
+      );
     }
 
-    return res.status(500).json({ message: "Signup failed", error });
+    if (error.name === "ValidationError") {
+      return sendResponse(res, 400, false, "All fields are required");
+    }
+
+    console.error(error);
+    return sendResponse(
+      res,
+      500,
+      false,
+      "Signup failed. Please try again later."
+    );
   }
 };
 
-// LOGIN
+// Login
 module.exports.Login = async (req, res) => {
   try {
     const { email, password } = req.body;
 
     if (!email || !password) {
-      return res.json({ message: "All fields are required" });
+      return sendResponse(res, 400, false, "All fields are required");
     }
 
     const user = await UsersModel.findOne({ email });
     if (!user) {
-      return res.json({ message: "Incorrect password or email" });
+      return sendResponse(res, 401, false, "Incorrect password or email");
     }
 
     if (!user.verified) {
-      return res.json({
-        message: "Please verify your email before logging in.",
-      });
+      return sendResponse(
+        res,
+        403,
+        false,
+        "Please verify your email before logging in."
+      );
     }
 
     const auth = await bcrypt.compare(password, user.password);
     if (!auth) {
-      return res.json({ message: "Incorrect password or email" });
+      return sendResponse(res, 401, false, "Incorrect password or email");
     }
 
     const token = createSecretToken(user._id);
 
     res.cookie("token", token, {
-      withCredentials: true,
-      httpOnly: true,
-      sameSite: "Lax",
+      httpOnly: true, // Cookie cannot be accessed via JavaScript (prevents XSS attacks)
+      sameSite: "Lax", // Helps prevent CSRF; allows sending cookie on top-level navigations
       maxAge: 30 * 24 * 60 * 60 * 1000,
     });
 
-    res.status(200).json({
-      message: "User logged in successfully",
-      success: true,
+    return sendResponse(res, 200, true, "User logged in successfully", {
       user: {
         id: user._id,
         verified: user.verified,
         username: user.username,
         email: user.email,
+        name: user.name,
       },
     });
   } catch (error) {
     console.error(error);
-    res.status(500).json({ message: "Login failed" });
+    return sendResponse(res, 500, false, "Login failed");
   }
 };
 
-// -------------------- VERIFY EMAIL --------------------
+// Verify Email
 module.exports.VerifyEmail = async (req, res) => {
   const token = req.query.token;
 
-  // If no token provided
   if (!token) {
-    return res.json({ status: false });
+    return sendResponse(res, 200, false, "Verification token is missing.");
   }
 
   try {
@@ -128,13 +141,39 @@ module.exports.VerifyEmail = async (req, res) => {
     const decoded = jwt.verify(token, process.env.EMAIL_SECRET);
 
     // Update user verified status
-    const user = await UsersModel.findByIdAndUpdate(decoded.id, {
-      verified: true,
-    });
+    const user = await UsersModel.findByIdAndUpdate(
+      decoded.id,
+      { verified: true },
+      { new: true }
+    );
 
-    if (user) return res.json({ status: true, user: user.username });
+    if (!user) {
+      return sendResponse(
+        res,
+        404,
+        false,
+        "User not found or already verified."
+      );
+    }
+
+    return sendResponse(res, 200, true, "Email verified successfully.", {
+      user: user.username,
+    });
   } catch (error) {
-    return res.json({ status: false });
+    if (error.name === "TokenExpiredError") {
+      return sendResponse(res, 400, false, "Verification token has expired.");
+    }
+
+    if (error.name === "JsonWebTokenError") {
+      return sendResponse(res, 400, false, "Invalid verification token.");
+    }
+
+    return sendResponse(
+      res,
+      500,
+      false,
+      "Something went wrong while verifying email."
+    );
   }
 };
 
