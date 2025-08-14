@@ -41,11 +41,20 @@ export default function ForgotPass() {
             showLoader();
             const res = await axios.post(`${BASE_URL}/resetpass?token=${token}`, { password });
 
-            setMessage(res.data.message || "Password reset successfully.");
-            setType("success");
-            setTimeout(() => navigate("/login"), 1500);
+            if (res.data.success) {
+                setMessage(res.data.message || "Password reset successfully.");
+                setType("success");
+                setTimeout(() => navigate("/login"), 1500);
+            } else {
+                setMessage(res.data.message || "Reset failed.");
+                setType("error");
+            }
         } catch (err) {
-            setMessage("Reset failed. Try again.");
+            if (err.response?.data?.message) {
+                setMessage(err.response.data.message);
+            } else {
+                setMessage("Something went wrong. Please try again.");
+            }
             setType("error");
         } finally {
             hideLoader();

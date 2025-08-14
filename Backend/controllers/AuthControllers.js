@@ -177,64 +177,94 @@ module.exports.VerifyEmail = async (req, res) => {
   }
 };
 
-// -------------------- FORGOT PASSWORD --------------------
+// Forgot Password
 module.exports.ForgotPass = async (req, res) => {
   const { email } = req.body;
+
+  if (!email) {
+    return sendResponse(
+      res,
+      400,
+      false,
+      "Please provide a valid email address"
+    );
+  }
+
   try {
-    // Find user by email
     const user = await UsersModel.findOne({ email });
     if (!user) {
-      return res.json({ message: "No User exists with the email" });
+      return sendResponse(res, 404, false, "No user exists with this email");
     }
 
     // Create reset token and URL
     const token = createResetToken(user._id);
-    const resetPassUrl = `${process.env.CLIENT_URL}/forgotpass?token=${token}`;
+    const resetPassUrl = `${CLIENT_URL}/forgotpass?token=${token}`;
 
     // Send password reset email
     await sendEmail(
       user.email,
-      "Reset Your Password - Xpenser",
-      `<p>Click below to reset your password:</p>
-     <a href="${resetPassUrl}">Reset Password</a>`
+      "Password Reset Request - Xpenser",
+      `
+    <p>We received a request to reset the password for your Xpenser account associated with this email address.</p>
+    <p>If you made this request, please click the button below to set a new password:</p>
+    <p>
+      <a 
+        href="${resetPassUrl}" 
+        style="display:inline-block;padding:10px 20px;background-color:#4CAF50;color:white;text-decoration:none;border-radius:5px;font-weight:bold;"
+      >
+        Reset Password
+      </a>
+    </p>
+    <p>This link will expire in 10 minutes for your security.</p>
+    <p>If you did not request a password reset, you can safely ignore this email and your password will remain unchanged.</p>
+    <br>
+    <p>Thanks,</p>
+    <p><strong>The Xpenser Team</strong></p>
+  `
     );
 
-    res.json({ message: "Password reset email sent" });
+    return sendResponse(res, 200, true, "Password reset email sent");
   } catch (error) {
-    return res.json({ status: false });
+    console.error(error);
+    return sendResponse(res, 500, false, "Something went wrong");
   }
 };
 
-// -------------------- RESET PASSWORD --------------------
+// Reset Password
 module.exports.ResetPass = async (req, res) => {
   const token = req.query.token;
 
-  // If token missing
   if (!token) {
-    return res.json({ status: false });
+    return sendResponse(res, 400, false, "Password reset token is required");
   }
 
   try {
-    // Verify reset token
     const allowReset = jwt.verify(token, process.env.RESET_SECRET);
 
     const { password } = req.body;
 
-    // Hash new password
     const hashedPassword = await bcrypt.hash(password, 12);
 
-    // Update user password
     const updatedUser = await UsersModel.findByIdAndUpdate(allowReset.id, {
       password: hashedPassword,
     });
 
     if (updatedUser) {
-      return res.json({ message: "Password changed successfully" });
+      return sendResponse(res, 200, true, "Password changed successfully");
     } else {
-      return res.json({ message: "User not found" });
+      return sendResponse(res, 404, false, "User not found");
     }
   } catch (error) {
-    return res.json({ status: false, message: "Token expired or invalid" });
+    console.error("ResetPass error:", error);
+
+    if (
+      error.name === "TokenExpiredError" ||
+      error.name === "JsonWebTokenError"
+    ) {
+      return sendResponse(res, 400, false, "Token expired or invalid");
+    }
+
+    return sendResponse(res, 500, false, "Something went wrong");
   }
 };
 

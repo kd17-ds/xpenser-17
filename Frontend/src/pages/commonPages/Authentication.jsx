@@ -44,38 +44,39 @@ export default function Authentication({ formType }) {
             showLoader();
 
             if (formState === 0) {
-                const result = await handleLogin(email, password);
+                const res = await handleLogin(email, password);
 
-                if (!result.success) {
-                    setMessage(result.message || "Login failed.");
-                    hideLoader();
+                if (res?.data?.success) {
+                    const { message: msg, user: loggedInUser } = res.data;
+                    if (!loggedInUser?.verified) {
+                        setMessage("Please verify your email before logging in.");
+                        return;
+                    }
+                    setMessage(msg || "Login successful!");
+                    navigate("/");
+                } else {
+                    setMessage(res?.data?.message || "Login failed.");
                     return;
                 }
-
-                const { message: msg, user: loggedInUser } = result;
-
-                if (!loggedInUser?.verified) {
-                    setMessage("Please verify your email before logging in.");
-                    hideLoader();
-                    return;
-                }
-
-                setMessage(msg || "Login successful!");
-                navigate("/");
             }
 
             if (formState === 1) {
                 const res = await handleRegister(name, username, password, email);
-                if (res.success) {
+
+                if (res?.data?.success) {
                     setMessage("Signup successful. Check your email for verification.");
                     setFormState(0);
                     navigate("/login");
                 } else {
-                    setMessage(res.message || "Signup failed.");
+                    setMessage(res?.data?.message || "Signup failed.");
                 }
             }
         } catch (err) {
-            setMessage(err.message || "An error occurred.");
+            if (err.response?.data?.message) {
+                setMessage(err.response.data.message);
+            } else {
+                setMessage(err.message || "An error occurred.");
+            }
         } finally {
             hideLoader();
         }
@@ -86,12 +87,22 @@ export default function Authentication({ formType }) {
             setMessage("Please enter your email to reset password.");
             return;
         }
+
         try {
             showLoader();
             const res = await axios.post(`${BASE_URL}/forgotpass`, { email });
-            setMessage(res.data.message || "Reset link sent to your email.");
+
+            if (res?.data?.success) {
+                setMessage(res.data.message || "Reset link sent to your email.");
+            } else {
+                setMessage(res?.data?.message || "Unable to process request.");
+            }
         } catch (err) {
-            setMessage(err.message || "Something went wrong.");
+            if (err.response?.data?.message) {
+                setMessage(err.response.data.message);
+            } else {
+                setMessage(err.message || "Something went wrong. Please try again.");
+            }
         } finally {
             hideLoader();
         }
