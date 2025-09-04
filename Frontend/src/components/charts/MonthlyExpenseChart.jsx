@@ -12,20 +12,21 @@ export default function MonthlyExpensesChart({ transactions }) {
 
     transactions.forEach(txn => {
         if (txn.type === 'expense') {
-            const date = new Date(txn.date);
-            const month = monthNames[date.getUTCMonth()]; // <-- fixed here
-            monthlyTotals[month] = (monthlyTotals[month] || 0) + txn.amount;
+            // Manual parsing of YYYY-MM-DD to avoid timezone issues
+            const [year, month, day] = txn.date.split('-').map(Number);
+            const monthName = monthNames[month - 1]; // month-1 because array is 0-indexed
+            monthlyTotals[monthName] = (monthlyTotals[monthName] || 0) + txn.amount;
         }
     });
 
-    const labels = Object.keys(monthlyTotals).sort((a, b) => monthOrder.indexOf(a) - monthOrder.indexOf(b));
+    const labels = monthOrder.filter(month => monthlyTotals[month] !== undefined);
 
     const data = {
         labels,
         datasets: [
             {
                 label: 'Expenses (₹)',
-                data: Object.values(monthlyTotals),
+                data: labels.map(label => monthlyTotals[label]),
                 backgroundColor: [
                     'rgba(255, 99, 132, 0.2)',
                     'rgba(255, 99, 132, 0.75)',
@@ -71,7 +72,7 @@ export default function MonthlyExpensesChart({ transactions }) {
 
     return (
         <div className="w-full px-4 sm:px-0 mt-5">
-            <div className="max-w-md sm:max-w-2xl mx-auto p-4  rounded-xl shadow-lg">
+            <div className="max-w-md sm:max-w-2xl mx-auto p-4 rounded-xl shadow-lg">
                 <Bar data={data} options={options} />
             </div>
         </div>

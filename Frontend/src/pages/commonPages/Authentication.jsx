@@ -45,9 +45,9 @@ export default function Authentication({ formType }) {
 
             if (formState === 0) {
                 const res = await handleLogin(email, password);
-
-                if (res?.data?.success) {
-                    const { message: msg, user: loggedInUser } = res.data;
+                // now res is already res.data
+                if (res.success) {
+                    const { message: msg, user: loggedInUser } = res;
                     if (!loggedInUser?.verified) {
                         setMessage("Please verify your email before logging in.");
                         return;
@@ -55,7 +55,7 @@ export default function Authentication({ formType }) {
                     setMessage(msg || "Login successful!");
                     navigate("/");
                 } else {
-                    setMessage(res?.data?.message || "Login failed.");
+                    setMessage(res.message || "Login failed.");
                     return;
                 }
             }
