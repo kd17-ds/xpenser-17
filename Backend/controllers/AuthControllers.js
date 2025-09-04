@@ -268,7 +268,7 @@ module.exports.ResetPass = async (req, res) => {
   }
 };
 
-// -------------------- VERIFY USER FROM COOKIE --------------------
+// Verify user from cookies
 module.exports.VerifyUserFromCookie = async (req, res) => {
   const token = req.cookies.token;
 
